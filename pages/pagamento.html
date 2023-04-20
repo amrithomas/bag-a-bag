@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Groovin Bootstrap Template - Index</title>
+  <title>Pagamento</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -112,12 +112,15 @@
                         <label for = "tel" class="required" style = "color: #5c9f24">Telefone</label>
                         <input type = "tel" name = "telefone" id = "telefone" placeholder = "(DDD)XXXXX-XXXX" maxlength="15" class="form-control required" onkeypress="tel(this)" style = "background-color: #FFF; border-color: black">
                       </div>
+                    <a href="" class="btn-get-started animate__animated animate__fadeInUp scrollto">Enviar </a>
+
                    </div>
             </div>
         </div>
 
 
-        <div class="row">
+        <form action="" method="post">
+          <div class="row">
             <h3 class="h-forma">Formas de pagamento</h3>
             <div id="caixa-pagamento" class="col-8 offset-2 shadow">
                 <input type="radio" value=""> Cartão de crédito 
@@ -138,7 +141,7 @@
                         <br>
                     </div>
                   </div>
-
+                  
                   <div class="row">
                     <div class = "half-box">
                       <label for = "cpf" class="required" style = "color: #5c9f24" >Bandeira do cartão</label>
@@ -157,16 +160,21 @@
                         <label for = "email" class="required" style = "color: #5c9f24">Código de segurança</label>
                         <input type = "email" name = "email" id = "email" placeholder="CVV" class="form-control required" style = "background-color: #FFF; border-color: #000">
                       </div>
-                 </div>
-                 <br>
-                <hr class="linha">
-                <input type="radio" value=""> Pagar com pix 
-                <hr class="linha">
-                <input type="radio" value=""> Boleto 
-                <i class="bi bi-upc-scan"></i>
-            </div>
-        </div>
-        
+                    </div>
+
+                    <br>
+                    <hr class="linha">
+                    <input type="radio" value=""> Pagar com pix 
+                    <hr class="linha">
+                    <input type="radio" value=""> Boleto 
+                    <i class="bi bi-upc-scan"></i>
+                    <br>
+                    <a href="" class="btn-get-started2 animate__animated animate__fadeInUp scrollto">Enviar pagamento</a>
+                    
+                  </div>
+          </div>
+                
+        </form>
 
         
     </main>  
