@@ -22,7 +22,11 @@
     $data_emissao = filter_input(INPUT_POST, "data_emissao");
     $data_nascimento = filter_input(INPUT_POST, "data_nasc");
     $ddd = filter_input(INPUT_POST, "ddd", FILTER_SANITIZE_STRING);
+
     $numero = filter_input(INPUT_POST, "telefone", FILTER_SANITIZE_STRING);
+    $numero = trim($numero);
+    $numero = str_replace("-","",$numero);
+
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
 
     $cep = filter_input(INPUT_POST, "cep", FILTER_SANITIZE_STRING);
@@ -43,6 +47,9 @@
     $rg_valida = false;
     $data_rg_valida = false;
     $confirmar_senha = false;
+    $unico_email = false;
+    $unico_rg = false;
+    $unico_cpf = false;
 
     // fazendo as verificações do formulario
     if ($senha == $confirmar){
@@ -50,16 +57,16 @@
         echo "senha valida";
     } //verificação da senha
 
-
-
     if (validarCPF($cpf)){
         $cpf_valida = true;
+        echo "<br>";
         echo "cpf valido";
     } //verificação do cpf
 
     echo var_dump($rg);
     if (validarRG($rg)){
         $rg_valida = true;
+        echo "<br>";
         echo "rg valido";
     } //verificação do rg
 
@@ -69,7 +76,49 @@
         echo "data de emissao do rg valido";
     } //verificação da data de emissão do rg
 
-    if ($cpf_valida && $rg_valida && $data_rg_valida && $confirmar_senha){
+    //VERIFICANDO SE O EMAIL É UNICO
+    $a = "SELECT * FROM cadastro WHERE email ='$email'";
+    $select_email = mysqli_query($conn, $a);
+    $row_email = mysqli_fetch_assoc($select_email);
+
+    if(!empty($row_email)){
+        $unico_email = false;
+    }else  {
+        echo "<br>";
+        echo "email unico";
+        $unico_email = true;
+    }
+
+    // VERIFICANDO SE O RG É UNICO
+    $b = "SELECT * FROM rg WHERE numero_rg ='$rg'";
+    $select_rg = mysqli_query($conn, $b);
+    $row_rg = mysqli_fetch_assoc($select_rg);
+
+    if(!empty($row_rg)){
+        $unico_rg = false;
+    }else  {
+        echo "<br>";
+        echo "rg unico";
+        $unico_rg = true;
+    }
+
+    //VERIFICANDO SE O CPF É UNICO
+    $c = "SELECT * FROM usuario WHERE cpf ='$cpf'";
+    $select_cpf = mysqli_query($conn, $c);
+    $row_cpf = mysqli_fetch_assoc($select_cpf);
+
+    if(!empty($row_cpf)){
+        $unico_cpf = false;
+    }else  {
+        echo "<br>";
+        echo "cpf unico";
+        $unico_cpf = true;
+    }
+
+
+    //VERIFICANDO AS CONDIÇÕES 
+
+    if ($cpf_valida && $rg_valida && $data_rg_valida && $confirmar_senha && $unico_email && $unico_rg && $unico_cpf){
 
         //inserindo os dados no tabela cadastro
         $result_cadastro = "INSERT INTO cadastro (email, senha, data_cadastro) VALUES ('$email','" . md5($senha) . "', NOW())";
@@ -92,7 +141,7 @@
         $id_rg = mysqli_insert_id($conn); //pegando o id do rg
 
 
-        $result_usuario = "INSERT INTO usuario (nome, nome_meio, sobrenome, cpf, data_nascimento, fk_cadastro, fk_rg, fk_telefone, fk_endereco, criado) VALUES ('$nome','$nome_meio', '$sobrenome', '$cpf', '$data_nascimento', '$email', '$rg', '$id_telefone', '$id_endereco', NOW())";
+        $result_usuario = "INSERT INTO usuario (nome, nome_meio, sobrenome, cpf, data_nascimento, fk_cadastro, fk_rg, fk_telefone, fk_endereco, criado) VALUES ('$nome','$nome_meio', '$sobrenome', '$cpf', '$data_nascimento', '$id_cadastro', '$id_rg', '$id_telefone', '$id_endereco', NOW())";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
     
 
@@ -105,8 +154,8 @@
             //header("Location: ../cadastro_cliente.php");
         }
     } else{
-        $_SESSION["msg"] = "<p style='color: blue;'>CPF ou RG inválido</p>";
-        //header("Location: ../cadastro_cliente.php");
+        $_SESSION["msg"] = "<p style='color: red;'>Cadastro não foi realizado com sucesso.</p>";
+        //header("Location: ../../pages/cadastro.php");
     }  
 ?>
 
