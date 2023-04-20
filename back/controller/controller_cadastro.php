@@ -140,7 +140,7 @@
         $resultado_rg = mysqli_query($conn, $result_rg);
         $id_rg = mysqli_insert_id($conn); //pegando o id do rg
 
-
+        //INSERIMENTO DE DADOS DA TABELA USUARIO
         $result_usuario = "INSERT INTO usuario (nome, nome_meio, sobrenome, cpf, data_nascimento, fk_cadastro, fk_rg, fk_telefone, fk_endereco, criado) VALUES ('$nome','$nome_meio', '$sobrenome', '$cpf', '$data_nascimento', '$id_cadastro', '$id_rg', '$id_telefone', '$id_endereco', NOW())";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
     
