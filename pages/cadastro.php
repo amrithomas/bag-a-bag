@@ -47,7 +47,6 @@
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
 <main class="header">
     <header id="header" class="fixed-top d-flex align-items-center">
@@ -128,7 +127,7 @@
           <div class="half-box">
             <div class="col">
               <label for = "name" class="required" style = "color: #5c9f24">Nome</label>
-              <input type = "text" name="name" class="form-control required" style = "background-color: #FFF; border-color: black" name = "name" id = "name">
+              <input type = "text" name="name" class="form-control required" style = "background-color: #FFF ; border-color: black" name = "name" id = "name">
             </div>
           </div>
           <div class = "half-box">
@@ -136,15 +135,15 @@
               <input type = "text" name="middlename" class="form-control required" style = "background-color: #FFF; border-color: black" name = "sobrenome" id = "sobrenome">
           </div>
         </div>
-        <div class = "half-box" style = "width: 88%;">
-          <div class="col-6">
+        <div class = "half-box">
+          <div class="col" style = "width: 46%;">
             <label for = "ultname" class="required" style = "color: #5c9f24">Sobrenome</label>
             <input type="text" name="ultname"  class="form-control required" style = "background-color: #FFF; border-color: black" name = "ultname" id = "ultname">
           </div>
         </div>
         <div class="row">
           <div class = "half-box">
-            <label for = "cpf" class="required" style = "color: #5c9f24" >CPF</label>
+            <label for = "cpf" class="required" style = "color: #cococo" >CPF</label>
             <input type = "number" class="form-control required" style = "background-color: #FFF; border-color: black" name = "cpf" id = "cpf">
           </div>
           <div class = "half-box">
@@ -154,7 +153,7 @@
         </div>
         <div class="row">
           <div class = "half-box">
-            <label for = "date" class = "required" style = "color: #5c9f24">Data emissão (RG)</label>
+            <label for = "date" class = "required" style = "color: #5c9f24">Data de emissão (RG)</label>
             <input type = "date" name = "data_emissao" id = "data_emissao" class="form-control" style = "background-color: #FFF; border-color: black">
           </div>
           <div class = "half-box">

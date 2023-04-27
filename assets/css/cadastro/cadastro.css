@@ -446,7 +446,7 @@ svg {
   /*--------------------------------------------------------------
   # cadastro
   --------------------------------------------------------------*/
-input, label .main-container{
+  input, label .main-container{
     display: block;
     border-color: #5c9f24;
     color:#5c9f24;
@@ -499,6 +499,9 @@ h1{
   .header{
     position: absolute;
   }
+  .main-container #ultname{
+    width: 300px;
+  }
 }
 @media screen and (max-width: 320px){
   .main-container{
@@ -510,8 +513,8 @@ h1{
     flex-direction: column;
     flex-wrap: nowrap;
   }
-  #ultname{
-    width: 210px;
+  .main-container #ultname{
+    width: 198px;
   }
 }
 
