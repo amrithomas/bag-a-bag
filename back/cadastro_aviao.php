@@ -25,7 +25,7 @@
         <label>Código da Aeronave: </label>
         <input
             type="text"
-            name="codaviao"
+            name="codigo_aviao"
             autofocus required
             maxlength="7"
         ><br><br>
