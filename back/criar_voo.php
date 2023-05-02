@@ -539,6 +539,11 @@ while($row_origem = mysqli_fetch_assoc($consulta)) {
                 mudaSelectsOrigem();
                 mudaSelectsDestino();
                 mudaSelectsEscala();
+                
+                form.codigo_aviao[1].setAttribute("required", "");
+                form.volta_horario_partida.setAttribute("required", "");
+                form.volta_horario_chegada.setAttribute("required", "");
+                
             } else {
                 fieldsetVolta.style.display = "none";
                 aviaoVolta.selectedIndex = 0;
@@ -546,6 +551,10 @@ while($row_origem = mysqli_fetch_assoc($consulta)) {
                 horarioChegadaVolta.value = "";
                 limparEscala(1)
                 mudaSelectsAeronave();
+                
+                form.codigo_aviao[1].removeAttribute("required");
+                form.volta_horario_partida.removeAttribute("required");
+                form.volta_horario_chegada.removeAttribute("required");
             }
         }
 

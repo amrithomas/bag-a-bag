@@ -20,7 +20,10 @@ if ($tipo == 1) {
 	$fk_aviao_volta = filter_input(INPUT_POST, 'fk_aviao_volta', FILTER_SANITIZE_NUMBER_INT);
 
 	$volta_horario_partida = filter_input(INPUT_POST, 'volta_horario_partida');
+	$volta_horario_partida = (string) $volta_horario_partida;
+
 	$volta_horario_chegada = filter_input(INPUT_POST, 'volta_horario_chegada');
+	$volta_horario_chegada = (string) $volta_horario_chegada;
 
 	$fk_aeroporto_escala_volta = filter_input(INPUT_POST, 'fk_aeroporto_escala_volta', FILTER_SANITIZE_NUMBER_INT);
 	$horario_chegada_escala_volta = filter_input(INPUT_POST, 'horario_chegada_escala_volta');
@@ -30,10 +33,10 @@ if ($tipo == 1) {
 } else {
 	$fk_aviao_volta = "NULL";
 
-	$volta_horario_partida = "";
-	$volta_horario_chegada = "";
+	$volta_horario_partida = "NULL";
+	$volta_horario_chegada = "NULL";
 
-	$fk_aeroporto_escala_volta = "";
+	$fk_aeroporto_escala_volta = '';
 	$horario_chegada_escala_volta = "NULL";
 	$tempo_escala_volta = "NULL";
 }
@@ -87,7 +90,12 @@ if (!empty($fk_aeroporto_escala_volta)) {
 }
 
 // INSERIR DADOS NA TABELA DE VOOS
-$query = "INSERT INTO voo (FK_ORIGEM_AERO, FK_DESTINO_AERO, FK_ESCALA_IDA, FK_ESCALA_VOLTA, VALOR_PASSAGEM, IDA_HORARIO_PARTIDA, IDA_HORARIO_CHEGADA, VOLTA_HORARIO_PARTIDA, VOLTA_HORARIO_CHEGADA, FK_AVIAO_IDA, FK_AVIAO_VOLTA, CRIADO) VALUES ($fk_origem_aero, $fk_destino_aero, $fk_escala_ida, $fk_escala_volta, '$valor_passagem', '$ida_horario_partida', '$ida_horario_chegada', '$volta_horario_partida', '$volta_horario_chegada', $fk_aviao_ida, $fk_aviao_volta, NOW())";
+if ($tipo == 1) {
+	$query = "INSERT INTO voo (FK_ORIGEM_AERO, FK_DESTINO_AERO, FK_ESCALA_IDA, FK_ESCALA_VOLTA, VALOR_PASSAGEM, IDA_HORARIO_PARTIDA, IDA_HORARIO_CHEGADA, VOLTA_HORARIO_PARTIDA, VOLTA_HORARIO_CHEGADA, FK_AVIAO_IDA, FK_AVIAO_VOLTA, CRIADO) VALUES ($fk_origem_aero, $fk_destino_aero, $fk_escala_ida, $fk_escala_volta, $valor_passagem, '$ida_horario_partida', '$ida_horario_chegada', '$volta_horario_partida', '$volta_horario_chegada', $fk_aviao_ida, $fk_aviao_volta, NOW())";
+}
+else {
+	$query = "INSERT INTO voo (FK_ORIGEM_AERO, FK_DESTINO_AERO, FK_ESCALA_IDA, VALOR_PASSAGEM, IDA_HORARIO_PARTIDA, IDA_HORARIO_CHEGADA, FK_AVIAO_IDA, CRIADO) VALUES ($fk_origem_aero, $fk_destino_aero, $fk_escala_ida, $valor_passagem, '$ida_horario_partida', '$ida_horario_chegada', $fk_aviao_ida, NOW())";
+}	
 mysqli_query($conn, $query);
 
 if (mysqli_insert_id($conn)) {
