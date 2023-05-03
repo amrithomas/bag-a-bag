@@ -122,7 +122,7 @@
 
         //inserindo os dados no tabela cadastro
         $result_cadastro = "INSERT INTO cadastro (email, senha, data_cadastro) VALUES ('$email','" . md5($senha) . "', NOW())";
-        $result_endereco = "INSERT INTO endereco (cep, rua, numero, bairro, cidade, uf, complemento) VALUES ('$cep','$rua','$numero','$bairro','$cidade','$uf','$complemento')";
+        $result_endereco = "INSERT INTO endereco (cep, rua, numero_endereco, bairro, cidade, uf, complemento) VALUES ('$cep','$rua','$numero','$bairro','$cidade','$uf','$complemento')";
         $result_telefone = "INSERT INTO telefone (ddd, numero) VALUES ('$ddd','$numero')";
         $result_rg = "INSERT INTO rg (numero_rg, data_emissao) VALUES ('$rg', '$data_emissao')";
         $result_usuario = "INSERT INTO usuario (nome, nome_meio, sobrenome, cpf, data_nascimento, criado) VALUES ('$nome','$nome_meio', '$sobrenome', '$cpf', '$data_nascimento', NOW())";
