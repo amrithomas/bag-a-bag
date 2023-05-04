@@ -99,10 +99,10 @@
         
         if (mysqli_affected_rows($conn)) {
             //$_SESSION["msg"] = "<p style='color: blue;'>Usuário editado com sucesso</p>";
-            header("Location: ../../pages/user.php?id=$id");
+            echo "<script>location.href='../../pages/user.php?id=$id';</script>";
         } else {
             //$_SESSION["msg"] = "<p style='color: blue;'>Usuário não foi editado.</p>";
-            header("Location: ../../pages/alteracoes_cadastro?id=$id");
+            echo "<script>location.href='../../pages/alteracoes_cadastro?id=$id';</script>";
         }
     }
 
