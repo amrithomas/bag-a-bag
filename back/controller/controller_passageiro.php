@@ -78,7 +78,7 @@ for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
     $fk_assento = $assentos_pks[$passageiro];
 
     // procura por um passageiro com os dados informados no banco
-    $query = "SELECT * FROM passageiro WHERE CPF_PASSAGEIRO=$cpf_passageiro AND DATA_NASC_PASSAGEIRO='$data_nasc_passageiro'";
+    $query = "SELECT * FROM passageiro WHERE CPF_PASSAGEIRO='$cpf_passageiro' AND DATA_NASC_PASSAGEIRO='$data_nasc_passageiro'";
     $consulta = mysqli_query($conn, $query);
     
     // SE NÃO HOUVER PASSAGEIRO COM OS DADOS INFORMADOS...
@@ -121,6 +121,7 @@ for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
     }
     // SE HOUVER PASSAGEIRO COM OS DADOS INFORMADOS...
     else {
+        echo "JA TEM CADASTRO";
         $row = mysqli_fetch_assoc($consulta);
         $id_passageiro = $row['ID_PASSAGEIRO'];
     }
@@ -128,6 +129,7 @@ for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
     // CRIAR PASSAGEM
     $query = "INSERT INTO passagem (FK_ASSENTO, FK_PASSAGEIRO, FK_VOO, FK_CUPOM, FK_RESERVA) VALUES ($assentos_pks[$passageiro], $id_passageiro, $id_voo, DEFAULT, $id_reserva)";
     $consulta = mysqli_query($conn, $query);
+    echo $query;
 }
 
 if (mysqli_insert_id($conn)) {        
