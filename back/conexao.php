@@ -1,7 +1,7 @@
 <?php
-    $servidor = "localhost";    // $servidor = $_SERVER["SERVER_NAME"];
+    $servidor = "localhost";   
     $usuario = "root";          
     $senha = "";
     $dbname = "bag_a_bag";
-    $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);   //Criar a string de conexão
+    $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);   
 ?>

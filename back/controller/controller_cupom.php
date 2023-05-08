@@ -21,24 +21,16 @@
         
         if(!empty($row_cupom)){
             $_SESSION["msg"] = "<p style='color: red;'> Não foi possível cadastrar com sucesso</p>";
-            echo "<script>location.href='../admin/cupom_desconto.php';</script>";
+            echo "<script>location.href='../cupom_desconto.php';</script>";
         }else  {
              //inserindo no banco
-            $result_usuario = "INSERT INTO cupom (CODIGO_CUPOM, VALOR_DESCONTO, CRIADO) VALUES ('$codigo_cupom','$valor_desconto', NOW())";
+            $result_usuario = "INSERT INTO cupom (CODIGO_CUPOM, VALOR_DESCONTO) VALUES ('$codigo_cupom','$valor_desconto')";
             $resultado_usuario = mysqli_query($conn, $result_usuario);
-            
-            if (mysqli_insert_id($conn)) {
-                $_SESSION["msg"] = "<p style='color: green;' class='text-center'> CUPOM CADASTRADO COM SUCESSO</p>";
-                echo "<script>location.href='../admin/cupom.php';</script>";
-            } else {
-                $_SESSION["msg"] = "<p style='color: red;'> Não foi possível cadastrar com sucesso</p>";
-            }
-            
         }
 
     }else{
         $_SESSION["msg"] = "<p style='color: red;'> Não foi possível cadastrar com sucesso</p>";
-        echo "<script>location.href='../admin/cupom_desconto.php';</script>";
+        echo "<script>location.href='../cupom_desconto.php';</script>";
     }
     
 

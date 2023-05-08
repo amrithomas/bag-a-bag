@@ -43,7 +43,7 @@ body {
   
   html,
 body {
-  background-color: #FFF;
+  
   margin: 0;
   padding: 0;
   width: 100%;
@@ -137,6 +137,7 @@ svg {
     z-index: 997;
     height: 80px;
   }
+
   
   #header .logo {
     font-size: 28px;
@@ -446,48 +447,189 @@ svg {
   /*--------------------------------------------------------------
   # alteracoes
   --------------------------------------------------------------*/
-.main-alteracoes {
-    width: 70%;
-    margin: auto;
-}
-
-#nomepng{
-    margin: auto;
-    width: 50px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
-
-h5{
-  text-align: center;
-  padding-bottom: 20px;
-}
-
-.main-alteracoes card h-100{
-    border-color: #5c9f24 2px;
-}
-
-@media screen and (min-width: 320px) {
-    .main-alteracoes {
-      margin-top: 20%;
-      margin-bottom: 10%;
+  input, label .main-alteracoes{
+    display: block;
+    border-color: #5c9f24;
+    color:#5c9f24;
   }
-}
+  
+  label .main-alteracoes{
+    color:#5c9f24;
+  }
+  
+  .main-alteracoes{
+    margin: auto;
+    padding: 0% 15%;
+  }
+  .main-alteracoes-dados{
+    width: 580px;
+    height: 650px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    margin: auto;
+    border-style:groove;
+    border-color: #5c9f24;
+    padding: 2%;
+    box-shadow: 5px -5px rgb(163, 197, 171);
 
-@media screen and (min-width: 768px) {
-    .main-alteracoes {
-        margin-top: 15%;
+  }
+  .main-alteracoes-endereco{
+    width: 580px;
+    height: 650px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    margin: auto;
+    border-style:groove;
+    border-color: #5c9f24;
+    padding: 2%;
+    box-shadow: 5px -5px rgb(163, 197, 171);
+
+  }
+
+  h1{
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  h2{
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  h3{
+    font-size: 30px;
+    text-align: center;
+    margin-top: 15%;
+    margin-bottom: -5%;
+  }
+  h5{
+    font-size: 30px;
+    font-family: "Roboto";
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #5c9f24;
+    padding: 25px;
+    width: 50%;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: -5%;
+    box-shadow: 15px -10px rgb(163, 197, 171);
+  }
+  #cadastrar{
+    margin-top: 15%;
+    align-items: center;
+  }
+  .main-alteracoes-endereco .required:after {
+    content: "  Busca Automática"; 
+    font-size: 10px;
+    color: red;
+  }
+  .main-alteracoes-dados .required:after {
+    content: "  Campo inalterável"; 
+    font-size: 10px;
+    color: red;
+  }
+  @media screen and (max-width: 320px) {
+      .main-alteracoes h5{
+        font-size: 20px;
+        width: 80%;
+    }
+      .main-alteracoes {
+        margin-top: 20%;
         margin-bottom: 10%;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-    .main-alteracoes {
+    }
+      .row{
+        flex-direction: column;
+        flex-wrap: nowrap;
+    } 
+      .main-alteracoes-dados {
         margin-top: 10%;
         margin-bottom: 10%;
+        height: 830px;
+    }
+      .main-alteracoes-dados #ultname{
+        width: 210%;
+    }
+      .main-alteracoes-endereco {
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+    
   }
-}
+  
+  @media screen and (max-width: 768px) {
+      .main-alteracoes h5{
+        margin-top: 15%;
+        margin-bottom: 8%;
+      }
+      .main-alteracoes {
+          margin-top: 15%;
+          margin-bottom: 10%;
+    }
+      .main-alteracoes-endereco {
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+      .main-alteracoes {
+          margin-top: 5%;
+          margin-bottom: 10%;
+    }
+      .main-alteracoes h5{
+        margin-top: 15%;
+        margin-bottom: 0;
+        font-size: 30px;
+        width: 80%;
+    }
+      .main-alteracoes-dados {
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+      .main-alteracoes #cadastrar{
+        margin-bottom: 20%;
+    }
+      .botao{
+        align-items: center;
+    }
+  }
+  
+  form{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .main-alteracoes-dados .half-box{
+      flex: 1 1 45%;
+      position: relative;
+      margin-bottom: 2%;
+      margin-top: 2%;
+  }
+  .main-alteracoes-endereco .half-box{
+    flex: 1 1 45%;
+    position: relative;
+    margin-bottom: 7%;
+    margin-top: 2%;
+  }
+  .botao{
+    text-align: center;
+    margin-top: 15%;
+  }
+  .border{
+    padding: 30px;
+    border-color: #5c9f24;
+    width: 50%;
+    margin: auto;
+    margin-top:10%;
+    margin-bottom: -5%;
+    border-width: medium;
+  }
   /*--------------------------------------------------------------
+  # Footer
+  --------------------------------------------------------------*/
+ /*--------------------------------------------------------------
   # Footer
   --------------------------------------------------------------*/
   #footer {

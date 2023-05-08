@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Bag-a-Bagₑ - Login</title>
+  <title>Bag-a-Bagₑ - Detalhes da passagem</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -31,8 +31,7 @@
   <link href="../assets/css/style.css" rel="stylesheet">
 
   <!-- CSS Bag-a-Bag -->
-  <link rel="stylesheet" href="../assets/css/login/login.css">
-
+  <link rel="stylesheet" href="../assets/css/detalhes_passagem/detalhes_passagem.css">
 
   <!-- =======================================================
   * Template Name: Groovin
@@ -55,7 +54,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="../index.php">HOME</a></li>
-          <li><a class="nav-link scrollto" href="../index.php#about">SOBRE</a></li>
+          <li><a class="nav-link scrollto" href="../index.php#services">SOBRE</a></li>
           <li><a class="nav-link scrollto" href="./destinos.php">DESTINOS</a></li>
           <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
           <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
@@ -68,7 +67,7 @@
             </ul> -->
           </li>
           <li><a class="nav-link scrollto active" href="login.html" style = "margin-left: 80px;">LOGIN</a></li>
-          <li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>
+          <li><a class="getstarted scrollto" href="./cadastro.php">CADASTRE-SE</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -76,45 +75,83 @@
     </div>
   </header><!-- End Header -->
 
+
+  <!-- detalhes passagem -->
     <main class="container">
-
-        <div class="row">
-            <div id="caixa-form" class="col-8 offset-2 shadow">
-              
-                  <form class="" action="../back/controller/controller_login.php" method="post">
-                    <h4 class="text-center mb-3" style="color: #5C9F24">Login</h5>
-
-                    <label for="caixa-text" style="color: #5C9F24;" class="form-label">Endereço de Email</label>
-                    <div id="caixa-text" class=" mb-5">
-                      <input type="email" name="email" class="inputs col-12" id="email" required>
+        <form action="" method="post">
+            <div class="row">
+                <div id="caixa-detalhes" class="col-8 offset-2 shadow">
+                    <img src="/assets/img/detalhes_passagem/ico.png" id="icon" alt="" srcset=""><label class="bag-a-bag" for="">BAG-A-BAGₑ</label>
+                    <div class="row">
+                      <hr class="linha-1">
+                      <!-- origem do voo -->
+                    <div class="div-1">                       
+                        <label for="">Origem</label><br>
+                        <label id="seta1" for=""> > </label><br>
+                        <label for="">Guarulhos</label>
                     </div>
-                    <!-- <p id="" class="form-text">Nunca pedimos ou compartilhamos seu e-mail com terceiros.</p> -->
-
-                    <label for="caixa-text" style="color: #5C9F24;" class="form-label">Senha</label>
-                    <div id="caixa-text" class="mb-3">
-                      <input type="password" name="senha" class="inputs col-xl-11 col-lg-11 col-md-11 col-lg-11 col-xs-11" id="senha" required>
-                      <span class="input-group-btn col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                        <button class="btn" class="" onclick="showpass()" type="button" id="imgeye"><i class="bi bi-eye"></i></button>
-                      </span>
+                    <!-- fim origem voo -->
+                    <!-- destino de chegada  -->
+                    <div class="div-2">
+                        <label for="">Destino</label><br>
+                        <label id="seta2" for=""> > </label><br>
+                        <label for="">Punta Cana</label>
                     </div>
-
-                    <div class="mb-3 form-check">
-                      <input type="checkbox" class="form-check-input" id="check">
-                      <label class="form-check-label form-tex mb-3" for="check">Lembre de mim</label>
+                    <!-- fim destino de chegada -->
+                    <!-- informação se a viagem será ida e volta -->
+                    <div class="div-3">
+                        <label for="">Ida e Volta</label>
                     </div>
-
-                    <div class="row offset-4 col-4 align-items-center">
-                      <button type="submit" id="btn-submit" style="min-width: 80px;"class="btn btn-primary">Login</button>
+                    <!-- fim viagem ida e volta -->
+                    <!-- data da ida e volta -->
+                    <div class="div-4">                       
+                        <label for="">25/07/2023</label><br>
+                        <label id="seta3" for=""> > </label><br>
+                        <label for="">05/07/2023</label>
                     </div>
-                    
-                  </form>
+                    <!-- fim data -->
+                    <!-- número do voo -->
+                    <div class="div-5">
+                        <label for="">N° do voo</label><br>
+                        <label id="seta4" for=""> > </label><br>
+                        <label for="">5426565</label>
+                    </div>
+                    <!-- fim numero voo -->
+                    <!-- como foi efetuado o pagamento da pessoa e o valor -->
+                    <div class="div-6">
+                        <label for="">Cartão de </label><br>
+                        <label for="">Crédito</label><br>
+                        <label class="money" for=""><sup>R$</sup>2.590<span> </span></label>
+                    </div>
+                    <!-- fim pagamento  -->
+                    <hr class="linha-1">
+                </div>
+                <div class="row">
+                  <!-- nome do passageiro -->
+                    <div class="div-7">                        
+                        <label for="">Passageiro: Mark Elliot Zuckerberg</label>
+                    </div>
+                    <!-- fim nome do passageiro -->
+                    <!-- assento do passageiro -->
+                    <div class="div-8">                        
+                        <label for="">Assento:       10F</label>
+                    </div>
+                    <!-- fim assento -->
+                    <!-- recibo eletrônico -->
+                    <div class="div-9">                        
+                        <label for="">Recibo bilhete eletrônico: 105798961687873534817878</label><br><br>
+                    </div>
+                    <!-- fim recibo -->
+                </div>
+                
+                </div>
             </div>
-    
-        </div>
-        
+        </form>
+        <br>
     </main>  
+    <!-- fim detalhes passagem -->
 
-  <!-- ======= Footer ======= -->
+    <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="footer-top">
       <div class="container">
@@ -143,19 +180,19 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>BAG-A-BAGₑ</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#about">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="destinos.php">Destinos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#pricing">Ofertas</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#contact">Contato</a></li>
+              <li><a class="nav-link scrollto" href="../index.php">HOME</a></li>
+              <li><a class="nav-link scrollto" href="../index.php#services">SOBRE</a></li>
+              <li><a class="nav-link scrollto" href="./destinos.php">DESTINOS</a></li>
+              <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
+              <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
             </ul>
           </div>
 
         <div class="col-lg-3 col-md-6 footer-links">
             <h4>Conta</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Login</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="cadastro.php">Cadastre-se</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="login.html">Login</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="./cadastro.php">Cadastre-se</a></li>
               <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li> -->
@@ -188,7 +225,6 @@
     </div>
   </footer><!-- End Footer -->
 
-
     <!-- Vendor JS Files -->
   <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -199,5 +235,4 @@
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/login.js"></script>
 </body>
