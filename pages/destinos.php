@@ -199,7 +199,7 @@
             </a>
           </div>
           <div class="container">
-            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/punta-cana.php">
+            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/voos.php">
               <button
                 style="min-width: 65px"
                 type="button"
@@ -277,7 +277,7 @@
             </a>
           </div>
           <div class="container">
-            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/punta-cana.php">
+            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/voos.php">
               <button
                 style="min-width: 65px"
                 type="button"
