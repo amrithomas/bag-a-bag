@@ -1,3 +1,9 @@
+<?php 
+session_start(); //iniciando sessão
+include_once("../../back/conexao.php"); //incluindo conexão
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,7 +11,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BAG-A-BAGₑ</title>
+  <title>Bag-a-Bagₑ - Vôos</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -40,21 +46,21 @@
   ======================================================== -->
 </head>
 
-<body>
+<body style="min-width: 769px;">
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="../index.html">BAG-A-BAGₑ</a></h1>
+      <h1 class="logo"><a href="../index.php">BAG-A-BAGₑ</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">HOME</a></li>
+          <li><a class="nav-link scrollto" href="#">HOME</a></li>
           <li><a class="nav-link scrollto" href="#">SOBRE</a></li>
-          <li><a class="nav-link scrollto" href="#">DESTINOS</a></li>
+          <li><a class="nav-link scrollto active" href="">DESTINOS</a></li>
           <li><a class="nav-link scrollto " href="#">OFERTAS</a></li>
           <li><a class="nav-link scrollto" href="#">CONTATO</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
@@ -84,7 +90,7 @@
           <div class="carousel-item active" style="background-image: url(../../assets/img/destinos/punta-cana.jpg); background-position: center;">
             <div class="carousel-container">
               <div class="carousel-content">
-                <h2 class="animate__animated animate__fadeInDown">Punta Cana</h2>
+                <h2 class="animate__animated animate__fadeInDown">Todos os Vôos</h2>
               </div>
             </div>
           </div>
@@ -95,7 +101,7 @@
 
   <main id="main" class="container-fluid">
     
-    <!-- ====================== Teste com Modal =========================-->
+  <!-- ============================ Modal de Filtragem ==============================-->
     <div id="meuModal" class="modal fade" role="dialog" style="z-index: 99991;">
     
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >
@@ -113,7 +119,7 @@
                   </div> <!-- Fim do Header do Modal-->
 
                   <!-- ======== Div Child Modal 1 ======== -->
-                  <div class="modal-body filtros-caixa2 mb-2" id="filtros-caixa-2" style="border: solid 0px blue">
+                  <div class="modal-body filtros-caixa2 mb-2" id="filtros-caixa-2" style="border: solid 0px blue; overflow-y: auto; height: 400px;">
                     <!-- ==================== Área Referentes às Paradas =================== -->
                     <h5>Paradas</h5>
                     <div class="form-check">
@@ -230,18 +236,18 @@
                         Noite / 18:00 - 18:00
                       </label>
                     </div>
-                    <!--- ================ Botões de Submit ========================-->
-                    <div class="modal-footer mt-3">
-                      <button type="button" class="btn btn-outline-danger">
-                        Limpar Campos
-                      </button>
-                      <button type="button" class="btn btn-outline-success">
-                        Aplicar
-                      </button>
-                    </div>
-    
+                    
                   </div>
                   <!-- ========= Fim Div Child 1 Modal ========= -->
+                  <!--- ================ Botões de Submit ========================-->
+                  <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-outline-danger">
+                      Limpar Campos
+                    </button>
+                    <button type="button" class="btn btn-outline-success">
+                      Aplicar
+                    </button>
+                  </div>
     
                 </div>  <!-- ==== Fim Div Master =====-->
     
@@ -255,14 +261,14 @@
           
       </div>
     </div>
-    <!-- ================================================================= -->
+  <!-- ========================== Fim Modal de Filtragem ======================================= -->
       
 
     <!-- ================== Div Master ================= -->
     <div style="border: solid 0px blue;" class="">
       
       <!-- ================= Area de Passagens ================= -->
-        <div class="mb-2 container mt-3 shadow" id="form-filtros">
+        <div class="mb-2 container mt-3 shadow rounded" id="form-filtros">
           <!-- ================== Conteúdo ================= -->
           <div class="container text-center">
             <h1 class="mt-3 mb-3">Vôos</h1>
@@ -271,61 +277,127 @@
               Filtrar e Ordenar
             </button>
           </div>
-        
+
+          <?php
+          //Descobrir e Listar todos os Vôos Existentes
           
-          <!-- Card 01 -->
-          <div class="card mb-3 shadow" id="cards-bab" style="width: 90%; margin: 0 auto;">
-            <div class="card-body" style="padding: 0;">
+          $comando = 
+          "SELECT 
+          voo.ID_VOO,
+          voo.VALOR_PASSAGEM,
+          voo.IDA_HORARIO_PARTIDA,
+          voo.IDA_HORARIO_CHEGADA,
+          voo.VOLTA_HORARIO_PARTIDA,
+          voo.VOLTA_HORARIO_CHEGADA,
+          av1.EMPRESA AS EMPRESA_AVIAO_IDA,
+          av2.EMPRESA AS EMPRESA_AVIAO_VOLTA,
+          -- av1.CODIGO_AVIAO AS CODIGO_AVIAO_IDA, código do aviao dispensavel
+          -- av2.CODIGO_AVIAO AS CODIGO_AVIAO_VOLTA, código do aviao dispensavel
+          origem_ida.NOME_AEROPORTO AS NOME_AEROPORTO_ORIGEM_IDA,
+          destino_ida.NOME_AEROPORTO AS NOME_AEROPORTO_DESTINO_IDA,
+          -- origem_volta.NOME_AEROPORTO AS NOME_AEROPORTO_ORIGEM_VOLTA,
+          -- destino_volta.NOME_AEROPORTO AS NOME_AEROPORTO_DESTINO_VOLTA,
+          aeroporto_ida.NOME_AEROPORTO AS NOME_AEROPORTO_ESCALA_IDA,
+          aeroporto_volta.NOME_AEROPORTO AS NOME_AEROPORTO_ESCALA_VOLTA
+          FROM voo 
+          LEFT JOIN aeroporto AS origem_ida ON voo.FK_ORIGEM_AERO = origem_ida.ID_AEROPORTO
+          LEFT JOIN aeroporto AS destino_ida ON voo.FK_DESTINO_AERO = destino_ida.ID_AEROPORTO
+          -- LEFT JOIN aeroporto AS origem_volta ON voo.FK_ORIGEM_AERO = origem_volta.ID_AEROPORTO
+          -- LEFT JOIN aeroporto AS destino_volta ON voo.FK_DESTINO_AERO = destino_volta.ID_AEROPORTO
+          LEFT JOIN escala AS escala_ida ON voo.FK_ESCALA_IDA = escala_ida.ID_ESCALA
+          LEFT JOIN escala AS escala_volta ON voo.FK_ESCALA_VOLTA = escala_volta.ID_ESCALA
+          LEFT JOIN aeroporto AS aeroporto_ida ON escala_ida.FK_AEROPORTO_ESCALA = aeroporto_ida.ID_AEROPORTO
+          LEFT JOIN aeroporto AS aeroporto_volta ON escala_volta.FK_AEROPORTO_ESCALA = aeroporto_volta.ID_AEROPORTO
+          LEFT JOIN aviao AS av1 ON voo.FK_AVIAO_IDA = av1.ID_AVIAO
+          LEFT JOIN aviao AS av2 ON voo.FK_AVIAO_VOLTA = av2.ID_AVIAO
+          ";
 
+          $query = mysqli_query($conn,$comando);
+          $row_resultado = mysqli_fetch_all($query);
+
+
+          // var_dump($row_resultado[5][0]);
+          
+          $x = 0;
+
+          while ($x < (count($row_resultado))){
+            $x = $x + 1;
+            //Variável que Representa o ID do Voo
+            $id_voo = $row_resultado[$x-1][0];//<- Esse último número representa a coluna a ser obtida as informações, indo de 0(id_voo) até 11(nome_aeroporto_escala_volta) 
+            
+            //obter local de origem ida
+            $local_ida_full = $row_resultado[$x-1][8];
+            $pattern = '/^Aeroporto de|^Aeroporto Internacional de|^Aeroporto do|^Aeroporto Internacional do|^Aeroporto da|^Aeroporto Internacional da/';
+            $locais_ida_origem = preg_replace($pattern,'',$local_ida_full);
+
+            //obter local de origem ida
+            $local_volta_full = $row_resultado[$x-1][9];
+            $pattern = '/^Aeroporto de|^Aeroporto Internacional de|^Aeroporto do|^Aeroporto Internacional do|^Aeroporto da|^Aeroporto Internacional da/';
+            $locais_ida_destino = preg_replace($pattern,'',$local_volta_full);
+
+            //obter valor da cadeira
+            $_SESSION['valor_poltrona'] = $row_resultado[$x-1][1]
+
+
+            ?>
+          <!-- ===== Card dos Vôos Existentes ====== -->
+          <a href="../assentos.php?voo=<?php echo $id_voo?>"> <!-- Enviar para Tela de Assentos -->
+            <div class="card mb-3 shadow" id="cards-bab" style="width: 90%; margin: 0 auto;">
+              <div class="card-body" id="demo" style="padding: 0;">
+                
               <div class="row">
-                <!-- Informações do Vôo -->
-                <div class="col-9" id="card-voo-left">
-                  <div class="card-title row">
-                    <h5 class="col-3" style="color:#3A5C1D;">IDA</h5>
-                    <h5 class="col-9 text-center">Guarulhos ➝ Punta Cana</h5>
-                  </div>
+                  <!-- Informações do Vôo -->
+                  <div class="col-9" id="card-voo-left">
+                    <div class="card-title row">
+                      <h5 class="col-3" style="color:#3A5C1D;">IDA <?php // echo $id_voo ?></h5>
+                      <h5 class="col-9 text-center"><?php echo $locais_ida_origem ?> ➝ <?php echo $locais_ida_destino?></h5>
+                    </div>
 
-                  <hr>
-                  <div class="row card-subtitle mb-2 text-body-secondary">
-                    <h6 class="col-3">
-                      <i class="bi bi-check-circle" style="color:green;"></i>  
-                      GOL
-                    </h6>
-                    <h6 class="col-9 text-center">12:00 ➝ 20:00</h6>
-                  </div>
+                    <hr>
+                    <div class="row card-subtitle mb-2 text-body-secondary">
+                      <h6 class="col-3">
+                        <i class="bi bi-check-circle" style="color:green;"></i>  
+                        <?php echo $row_resultado[$x-1][6]?>
+                      </h6>
+                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:m',strtotime($row_resultado[$x-1][2])) ?> ➝ <?php echo date('d/m/y H:m',strtotime($row_resultado[$x-1][3])) ?></h6>
+                    </div>
 
-                  <hr>
+                    <hr>
+                    
+                    <div class="card-title row">
+                      <h5 class="col-3" style="color:#3A5C1D;">VOLTA</h5>
+                      <h5 class="col-9 text-center">A definir ➝ A definir</h5>
+                    </div>
 
-                  <div class="card-title row">
-                    <h5 class="col-3" style="color:#3A5C1D;">VOLTA</h5>
-                    <h5 class="col-9 text-center">Punta Cana ➝ Guarulhos</h5>
+                    <hr>
+                    <div class="row card-subtitle mb-2 text-body-secondary">
+                      <h6 class="col-3">
+                        <i class="bi bi-check-circle" style="color:green;"></i> 
+                        <?php echo $row_resultado[$x-1][7] ?>
+                      </h6>
+                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:m',strtotime($row_resultado[$x-1][4])) ?> ➝ <?php echo date('d/m/Y H:m',strtotime($row_resultado[$x-1][5])) ?></h6>
+                    </div>
+                    
                   </div>
+                  <!-- Valor do Vôo -->
+                  <div class="text-center col-3 " id="card-voo-right">
+                    <h4 class="card-title mt-5"><?php echo $row_resultado[$x-1][1]; ?></h4>
+                    <h6 class="card-subtitle mt-1 text-body-secondary">por adulto, sem taxas</h6>
+                    <p class="mt-2" style="margin:-2px;">ou</p>
+                    <p class="mt-1">12x de R$<?php echo number_format($row_resultado[$x-1][1]/12, 2,'.',""); ?></p>
 
-                  <hr>
-                  <div class="row card-subtitle mb-2 text-body-secondary">
-                    <h6 class="col-3">
-                      <i class="bi bi-check-circle" style="color:green;"></i> 
-                      Caribair
-                    </h6>
-                    <h6 class="col-9 text-center">12:00 ➝ 20:00</h6>
+                    <!-- <input type="button" class="btn btn-success mt-3" value="Fazer Pedido"> -->
                   </div>
-                  
                 </div>
-                <!-- Valor do Vôo -->
-                <div class="text-center col-3" id="card-voo-right">
-                  <h4 class="card-title mt-4">R$6000</h4>
-                  <h6 class="card-subtitle mt-1 text-body-secondary">por adulto, sem taxas</h6>
-                  <p class="mt-3" style="margin:-2px;">ou</p>
-                  <p class="mt-1">12x de R$557,99</p>
 
-                  <input type="button" class="btn btn-success mt-3" value="Fazer Pedido">
-                </div>
-              </div>
+              </div>  <!-- Card Body -->
 
-            </div>  <!-- Card Body -->
+            </div> <!-- ==================== Fim Card ===================== -->
+          </a>
+        <?php
+        } //Fim While
+        ?>
 
-          </div> <!-- ==================== Fim Card ===================== -->
-        
         </div>  <!-- ===== Fim Área de Passsagens ===== -->
           
 
@@ -334,7 +406,7 @@
 
     
     
-
+      
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -347,9 +419,10 @@
             <div class="footer-info">
               <h3>BAG-A-BAGₑ</h3>
               <p>
-                A108 Adam Street <br>
-                NY 535022, USA<br><br>
-                <strong>Telefone:</strong>(11) 9000-0000<br>
+                Av. Washington Luís<br>
+                Vila Congonhas<br>
+                São Paulo - SP N°4878<br><br>
+                <strong>Telefone:</strong>(11) <em></em> 9000-0000<br>
                 <strong>Email:</strong>bag.a.bag@gmail.com<br>
               </p>
               <div class="social-links mt-3">

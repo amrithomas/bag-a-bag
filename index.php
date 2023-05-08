@@ -1,3 +1,8 @@
+<?php 
+  session_start();
+  include_once('back/conexao.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +10,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BAG-A-BAGₑ</title>
+  <title>Bag-a-Bagₑ - Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/airplane_favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -43,7 +48,7 @@
   <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="index.html">BAG-A-BAGₑ</a></h1>
+      <h1 class="logo"><a href="index.php">BAG-A-BAGₑ</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -62,8 +67,27 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul> -->
           </li>
-          <li><a class="nav-link scrollto" href="pages/login.html" style = "margin-left: 80px;">LOGIN</a></li>
-          <li><a class="getstarted scrollto" href="pages/cadastro.php">CADASTRE-SE</a></li>
+          <?php
+          //VERIFICANDO SE TEM UM USUARIO LOGADO
+            if(isset($_SESSION['id_usuario'])) {
+              $id = $_SESSION['id_usuario'];
+
+              $query = "SELECT * FROM usuario 
+              INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
+              INNER JOIN cadastro ON FK_CADASTRO = ID_CADASTRO
+              WHERE ID_USUARIO='$id'";
+              $query = mysqli_query($conn, $query);
+              $row = mysqli_fetch_assoc($query);
+              //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+              echo '<li><a class="getstarted scrollto" href="pages/user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
+              echo '<li><a class="nav-link scrollto" href="back/controller/controller_logoff.php">LOGOFF</a></li>';
+            }
+            else{
+              //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+              echo '<li><a class="nav-link scrollto" href="pages/login.html" style="margin-left: 80px;">LOGIN</a></li>';
+              echo '<li><a class="getstarted scrollto" href="pages/cadastro.php">CADASTRE-SE</a></li>';
+            }
+          ?>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -294,7 +318,7 @@
 
         <center>
           <div>
-            <a href="pages/destinos.html" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saiba Mais</a>
+            <a href="pages/destinos.php" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saiba Mais</a>
           </div>
         </center>
 
@@ -331,7 +355,7 @@
                 <li>Taxas e impostos não incluso!</li>
               </ul>
               <div class="btn-wrap">
-                <a href="pages/destinos.html#internacionais" class="btn-buy">Saiba Mais</a>
+                <a href="pages/destinos.php#internacionais" class="btn-buy">Saiba Mais</a>
               </div>
             </div>
           </div>
@@ -347,11 +371,11 @@
                 <li>Hotel + Áereo</li>
                 <hr>
                 <li>Preço por pessoa</li>
-                <h4><sup>R$</sup>1.350<span></span></h4>
+                <h4><sup>R$</sup>750<span></span></h4>
                 <li>Taxas e impostos não incluso!</li>
               </ul>
               <div class="btn-wrap">
-                <a href="pages/destinos.html#nacionais" class="btn-buy">Saiba Mais</a>
+                <a href="pages/destinos.php#nacionais" class="btn-buy">Saiba Mais</a>
               </div>
             </div>
           </div>
@@ -371,7 +395,7 @@
                 <li>Taxas e impostos não incluso!</li>
               </ul>
               <div class="btn-wrap">
-                <a href="pages/destinos.html#internacionais" class="btn-buy">Saiba Mais</a>
+                <a href="pages/destinos.php#internacionais" class="btn-buy">Saiba Mais</a>
               </div>
             </div>
           </div>
@@ -482,7 +506,7 @@
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="pages/destinos.html">Destinos</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="pages/destinos.php">Destinos</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#pricing">Ofertas</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contato</a></li>
             </ul>
@@ -491,8 +515,18 @@
         <div class="col-lg-3 col-md-6 footer-links">
             <h4>Conta</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="pages/login.html">Login</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="pages/cadastro.php">Cadastre-se</a></li>
+              <?php 
+                if(isset($_SESSION['id_usuario'])) {
+                  //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/user.php?id=' . $row["ID_USUARIO"] . '">Ver perfil</a></li>';
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="back/controller/controller_logoff.php">Logoff</a></li>';
+                }
+                else {
+                  //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/login.html">Login</a></li>';
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/cadastro.php">Cadastre-se</a></li>';
+                }
+              ?>
               <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li> -->

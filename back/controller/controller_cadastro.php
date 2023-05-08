@@ -171,7 +171,7 @@
 
         if (mysqli_insert_id($conn)) {
             $_SESSION["msg"] = "<p style='color: blue;'>Cadastrado realizado com sucesso</p>";
-            echo "<script>location.href='../../index.html';</script>";
+            echo "<script>location.href='../../index.php';</script>";
         } else {
             $_SESSION["msg"] = "<p style='color: red;'>Cadastro não foi realizado com sucesso</p>";
             echo "<script>location.href='../../pages/cadastro.php';</script>";
