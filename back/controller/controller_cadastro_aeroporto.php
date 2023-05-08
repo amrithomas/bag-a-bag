@@ -20,9 +20,11 @@
 
     if(!empty($row_sigla)){
         $unico_sigla = false;
+        $_SESSION["msg"] = "<p style='color: red;' class='text-center'>Cadastro não realizado. Sigla já cadastrada</p>";
+        echo "<script>location.href='../admin/cadastro_aeroporto.php';</script>";
     }else  {
-        echo "<br>";
-        echo "sigla unica";
+        // echo "<br>";
+        // echo "sigla unica";
         $unico_sigla = true;
     }
 
@@ -33,9 +35,11 @@
 
     if(!empty($row_nome)){
         $unico_nome = false;
+        $_SESSION["msg"] = "<p style='color: red;' class='text-center'>Cadastro não realizado. Nome já cadastrada</p>";
+        echo "<script>location.href='../admin/cadastro_aeroporto.php';</script>";
     }else  {
-        echo "<br>";
-        echo "nome do aeroporto unico";
+        // echo "<br>";
+        // echo "nome do aeroporto unico";
         $unico_nome = true;
     }
 
@@ -45,5 +49,16 @@
         $result_cadastro = "INSERT INTO aeroporto (sigla, nome_aeroporto, pais, cidade, criado) VALUES ('$sigla','$nome_aeroporto','$pais','$cidade', NOW())";
         $resultado_cadastro = mysqli_query($conn, $result_cadastro);
         $id_aeroporto = mysqli_insert_id($conn); //pegando o id do aeroporto
+        
+        if (mysqli_insert_id($conn)) {
+            $_SESSION["msg"] = "<p style='color: green;' class='text-center'>CADASTRO REALIZADO COM SUCESSO</p>";
+            echo "<script>location.href='../admin/aeroporto.php';</script>";
+        }
+    } else {
+        $_SESSION["msg"] = "<p style='color: red;'>Cadastro não realizado. Sigla e/ou nome já cadastrado</p>";
+        echo "<script>location.href='../admin/cadastro_aeroporto.php';</script>";
     }
+
+    
+    
 ?>

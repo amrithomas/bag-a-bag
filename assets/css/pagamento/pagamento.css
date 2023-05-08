@@ -1,131 +1,108 @@
+.h-faturamento{
+    margin-top: 100px;
+    margin-left: 210px;
+}
+
+.half-box{
+    width: 345px;
+    width: 55;
+}
+
+#caixa-detalhes{
+    width: 800px;
+    height: 400px;
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: #FFF; 
+    margin-bottom: 8%;
+    padding: 5%;
+    font-family: 'Poppins', sans-serif; 
+
+}
+
+#caixa-detalhes .btn-get-started {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 10px 32px 12px 32px;
+    border-radius: 4px;
+    transition: 0.5s;
+    line-height: 1;
+    margin: 10px;
+    color: #fff;
+    animation-delay: 0.8s;
+    text-transform: uppercase;
+    border: 2px solid #5c9f24;
+    background: #5c9f24;
+    width: 120px;
+    margin-top: 1cm;
+    margin-left: 7.5cm;
+  }
+
+
+#caixa-detalhes .btn-get-started:hover {
+    background: #6ab82a;
+    border-color: #6ab82a;
+    color: #fff;
+  }
+
+
+  
+/* FORMA DE PAGAMENTO */
+
+.h-forma{
+    margin-left: 210px;
+}
+
+#caixa-pagamento{
+    width: 800px;
+    height: 580px;
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: #FFF; 
+    margin-bottom: 8%;
+    padding: 5%;
+    font-family: 'Poppins', sans-serif; 
+}
+
+#caixa-pagamento .btn-get-started2{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 10px 32px 12px 32px;
+    border-radius: 4px;
+    transition: 0.5s;
+    line-height: 1;
+    margin: 10px;
+    color: #fff;
+    animation-delay: 0.8s;
+    text-transform: uppercase;
+    border: 2px solid #5c9f24;
+    background: #5c9f24;
+    margin-top: cm;
+    margin-left: 6cm;
+  }
+
+#caixa-pagamento .btn-get-started2:hover {
+    background: #6ab82a;
+    border-color: #6ab82a;
+    color: #fff;
+  }
+
 
 
 @media screen and (min-width: 320px) {
-  /* parte da caixa de detalhes do faturamento */
-  #caixa-detalhes {
-    margin-top: 2%;
-  }
-  /* titulo faturamento */
-  .h-faturamento {
-    margin-top: 25%;
-    margin-left: 16%;
-  }
 
-  /* parte da caixa de pagamento */
-  #caixa-pagamento {
-    margin-top: 2%;
-  }
-  /* titulo formas de pagamento */
-  .h-forma {
-    margin-top: 4%;
-    margin-left: 16%;
-  }
-
-  /* imagem codigo de barra boleto */
-  #boleto{
-    width: 90%;
-  }
 }
 
 @media screen and (min-width: 768px) {
-  /* parte da caixa de detalhes do faturamento */
-  #caixa-detalhes {
-    margin-top: 1%;
-  }
-  /* titulo faturamento */
-  .h-faturamento {
-    margin-top: 14%;
-    margin-left: 2%;
-  }
 
-  /* parte da caixa de pagamento */
-  #caixa-pagamento {
-    margin-top: 1%;
-  }
-  /* titulo formas de pagamento */
-  .h-forma {
-    margin-top: 4%;
-    margin-left: 16%;
-  }
 }
 
 @media screen and (min-width: 1024px) {
-  /* parte da caixa de detalhes do faturamento */
-  #caixa-detalhes {
-    margin-top: 1%;
-  }
-  /* titulo faturamento */
-  .h-faturamento {
-    margin-top: 8%;
-    margin-left: 210px;
-  }
 
-  /* campos para preencher */
-  .half-box {
-    width: 50%;
-  }
-
-  /* parte da caixa de pagamento */
-  #caixa-pagamento {
-    margin-top: 1%;
-  }
-  /* titulo formas de pagamento */
-  .h-forma {
-    margin-left: 210px;
-    margin-top: 3%;
-  }
-
-}
-
-
-/* botão submit */
-#btn-submit {
-  background-color: #5c9f24;
-  border: solid #5c9f24 2px;
-  margin: auto;
-  display: flex;
-}
-
-#btn-submit:hover {
-  background-color: #4f8f1a;
-  border: solid #5c9f24 2px;
-}
-
-
-/* botão radio que ao clicar aparece os conteudos */
-/* radio cartão de crédito */
-#termos:checked ~ #termoConteudo{
-  display: block;
-}
-#termoConteudo {
-  display:none;
-}
-
-/* radio pix */
-#termos2:checked ~ #termoConteudo2{
-  display: block;
-}
-#termoConteudo2 {
-  display:none;
-}
-/* imagem do qrCode */
-#pix{
-  margin-top: 1%;
-  margin: auto;
-  display: flex;
-}
-
-
-/* radio boleto */
-#termos3:checked ~ #termoConteudo3{
-  display: block;
-}
-#termoConteudo3 {
-  display:none;
-}
-/* imagem codigo do boleto */
-#boleto{
-  margin-top: 1%;
-  margin: auto;
-  display: flex;
 }

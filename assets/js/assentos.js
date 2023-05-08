@@ -72,11 +72,4 @@ function enviadado(){
     document.getElementById("enviaArray").value = assentos;
 
 }
-
-function trocatipo(){
-    
-    
-    
-
-  }
     
