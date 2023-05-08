@@ -3,11 +3,21 @@
 include_once('../conexao.php');
 
  $qtd_parcelas = $_POST['parcelas'];  // quantidade de parcelas escolhida pelo usuário na página pagamento.php
- $valorTotal = $_SESSION['valorTotal'];
  $opcao = $_POST["pagamento"];
 
+ $id_reserva = $_SESSION['id_reserva']; // Obter o ID_RESERVA da variável de sessão
 
+ function atualizar_status_reserva($conn, $id_reserva) {
+    $query2 = "SELECT * FROM reserva 
+        INNER JOIN pagamento ON FK_RESERVA = ID_RESERVA";
+    $query2 = mysqli_query($conn, $query2);
+    $row2 = mysqli_fetch_assoc($query2);
 
+    if(!empty($row2)) {
+        $result_usuario = "UPDATE reserva SET STATUS_RESERVA = 'Confirmada'  WHERE ID_RESERVA = '$id_reserva'";
+        $resultado_usuario = mysqli_query($conn, $result_usuario);
+    }
+}
  
  
  switch($opcao){
@@ -72,32 +82,37 @@ include_once('../conexao.php');
         
         // Inserção dos dados no banco 
         if (validarDadosCartao($numeroCartao, $dataValidade)) {
-            $result_usuario = "INSERT INTO pagamento (data_pagamento, tipo_pagamento, valor_pagamento, parcelas) VALUES (NOW(),'Crédito','$valorTotal','$qtd_parcelas')";
+            $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Crédito','$id_reserva','$qtd_parcelas')";
             $resultado_usuario = mysqli_query($conn, $result_usuario);
-            echo "<script>location.href='../../index.html';</script>";
+            $resultado = atualizar_status_reserva($conn, $id_reserva);
+            echo "<script>location.href='../../index.php';</script>";
         } else {
             echo "<script>location.href='../../pages/pagamento.php';</script>";
         }
         break;
     case "pix":
         // Inserção dos dados no banco 
-        $result_usuario = "INSERT INTO pagamento (data_pagamento, tipo_pagamento, valor_pagamento, parcelas) VALUES (NOW(),'Pix','$valorTotal',NULL)";
+        $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Pix','$id_reserva',NULL)";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
-        echo "<script>location.href='../../index.html';</script>";
-    break;
+        $resultado = atualizar_status_reserva($conn, $id_reserva);
+        echo "<script>location.href='../../index.php';</script>";
+        break;
 
     case "boleto":
         // Inserção dos dados no banco 
-        $result_usuario = "INSERT INTO pagamento (data_pagamento, tipo_pagamento, valor_pagamento, parcelas) VALUES (NOW(),'Boleto','$valorTotal',NULL)";
+        $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Boleto','$id_reserva',NULL)";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
-        echo "<script>location.href='../../index.html';</script>";
-    break;
+        $resultado = atualizar_status_reserva($conn, $id_reserva);
+        echo "<script>location.href='../../index.php';</script>";
+        break;
     case "":
 
         echo "<script>location.href='../../pages/pagamento.php';</script>";
-    break;
+        break;
+    
     
         
 }
 
+session_destroy(); // Destruir a sessão 
 ?>

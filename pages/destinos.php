@@ -1,15 +1,20 @@
+<?php 
+  session_start();
+  include_once('../back/conexao.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>BAG-A-BAGₑ</title>
+    <title>Bag-a-Bagₑ - Destinos</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
     <!-- Favicons -->
-    <link href="../assets/img/favicon.png" rel="icon" />
+    <link href="../assets/img/airplane_favicon.png" rel="icon" />
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
     <!-- Google Fonts -->
@@ -53,17 +58,17 @@
     <header id="header" class="fixed-top d-flex align-items-center">
       <div class="container d-flex align-items-center justify-content-between">
   
-        <h1 class="logo"><a href="../index.html">BAG-A-BAGₑ</a></h1>
+        <h1 class="logo"><a href="../index.php">BAG-A-BAGₑ</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
   
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a class="nav-link scrollto " href="../index.html">HOME</a></li>
-            <li><a class="nav-link scrollto" href="../index.html#about">SOBRE</a></li>
-            <li><a class="nav-link scrollto active" href="./destinos.html">DESTINOS</a></li>
-            <li><a class="nav-link scrollto " href="../index.html#pricing">OFERTAS</a></li>
-            <li><a class="nav-link scrollto" href="../index.html#contact">CONTATO</a></li>
+            <li><a class="nav-link scrollto " href="../index.php">HOME</a></li>
+            <li><a class="nav-link scrollto" href="../index.php#about">SOBRE</a></li>
+            <li><a class="nav-link scrollto active" href="./destinos.php">DESTINOS</a></li>
+            <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
+            <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
             <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
                 <li><a href="#">Drop Down 1</a></li>
@@ -72,8 +77,27 @@
                 <li><a href="#">Drop Down 4</a></li>
               </ul> -->
             </li>
-            <li><a class="nav-link scrollto" href="./login.html" style = "margin-left: 80px;">LOGIN</a></li>
-            <li><a class="getstarted scrollto" href="./cadastro.php">CADASTRE-SE</a></li>
+            <?php
+            //VERIFICANDO SE TEM UM USUARIO LOGADO
+            if(isset($_SESSION['id_usuario'])) {
+              $id = $_SESSION['id_usuario'];
+
+              $query = "SELECT * FROM usuario 
+              INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
+              INNER JOIN cadastro ON FK_CADASTRO = ID_CADASTRO
+              WHERE ID_USUARIO='$id'";
+              $query = mysqli_query($conn, $query);
+              $row = mysqli_fetch_assoc($query);
+              //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+              echo '<li><a class="getstarted scrollto" href="user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
+              echo '<li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php">LOGOFF</a></li>';
+            }
+            else{
+              //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+              echo '<li><a class="nav-link scrollto" href="login.html" style="margin-left: 80px;">LOGIN</a></li>';
+              echo '<li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>';
+            }
+          ?>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -175,7 +199,7 @@
             </a>
           </div>
           <div class="container">
-            <a class="row col-2 offset-5 align-items-center" href="">
+            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/punta-cana.php">
               <button
                 style="min-width: 65px"
                 type="button"
@@ -253,7 +277,7 @@
             </a>
           </div>
           <div class="container">
-            <a class="row col-2 offset-5 align-items-center" href="">
+            <a class="row col-2 offset-5 align-items-center" href="../pages/destinos/punta-cana.php">
               <button
                 style="min-width: 65px"
                 type="button"
@@ -278,9 +302,10 @@
             <div class="footer-info">
               <h3>BAG-A-BAGₑ</h3>
               <p>
-                A108 Adam Street <br>
-                NY 535022, USA<br><br>
-                <strong>Telefone:</strong>(11) 9000-0000<br>
+                Av. Washington Luís<br>
+                Vila Congonhas<br>
+                São Paulo - SP N°4878<br><br>
+                <strong>Telefone:</strong>(11) <em></em> 9000-0000<br>
                 <strong>Email:</strong>bag.a.bag@gmail.com<br>
               </p>
               <div class="social-links mt-3">
@@ -296,19 +321,29 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>BAG-A-BAGₑ</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#about">Sobre</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#about">Sobre</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Destinos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#pricing">Ofertas</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#contact">Contato</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#pricing">Ofertas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#contact">Contato</a></li>
             </ul>
           </div>
 
         <div class="col-lg-3 col-md-6 footer-links">
             <h4>Conta</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="login.html">Login</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="cadastro.php">Cadastre-se</a></li>
+              <?php 
+                if(isset($_SESSION['id_usuario'])) {
+                  //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="user.php?id=' . $row["ID_USUARIO"] . '">Ver perfil</a></li>';
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="../back/controller/controller_logoff.php">Logoff</a></li>';
+                }
+                else {
+                  //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="login.html">Login</a></li>';
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="cadastro.php">Cadastre-se</a></li>';
+                }
+              ?>
               <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li> -->

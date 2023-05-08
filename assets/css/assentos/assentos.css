@@ -1,0 +1,13 @@
+.card-info{
+  min-height: 120px; 
+  position: absolute; 
+  right: 0; 
+  top: 40%; 
+  z-index: 1;
+}
+
+/* #cardAssento{
+  overflow-y:visible; 
+ } */
+
+
