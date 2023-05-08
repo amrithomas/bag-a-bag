@@ -13,7 +13,18 @@ $horario_partida_ida = filter_input(INPUT_POST, 'horario_partida_ida');
 $horario_chegada_ida = filter_input(INPUT_POST, 'horario_chegada_ida');
 
 $horario_partida_volta = filter_input(INPUT_POST, 'horario_partida_volta');
+if ($horario_partida_volta == "") {
+    $horario_partida_volta = "NULL";
+} else {
+    $horario_partida_volta = "'$horario_partida_volta'";
+}
+
 $horario_chegada_volta = filter_input(INPUT_POST, 'horario_chegada_volta');
+if ($horario_chegada_volta == "") {
+    $horario_chegada_volta = "NULL";
+} else {
+    $horario_chegada_volta = "'$horario_chegada_volta'";
+}
 
 $aeroporto_escala_ida = filter_input(INPUT_POST, 'aeroporto_escala_ida', FILTER_SANITIZE_NUMBER_INT);
 $aeroporto_escala_volta = filter_input(INPUT_POST, 'aeroporto_escala_volta', FILTER_SANITIZE_NUMBER_INT);
