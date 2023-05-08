@@ -74,7 +74,7 @@ if (!empty($row3['FK_AVIAO_IDA']) && !empty($row2['FK_AVIAO_VOLTA'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="utf-8" />
