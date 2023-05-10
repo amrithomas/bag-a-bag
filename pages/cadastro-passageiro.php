@@ -5,6 +5,11 @@ include_once("../back/funcoes.php");
 $id_usuario = $_SESSION['id_usuario'];
 $id_voo = $_SESSION['id_voo'];
 
+// $str_assentos_ida = filter_input(INPUT_POST, "assentos_ida");
+// $str_assentos_volta = filter_input(INPUT_POST, "assentos_volta");
+// $str_aviao_ida = filter_input(INPUT_POST, "aviao_ida");
+// $str_aviao_volta = filter_input(INPUT_POST, "aviao_volta");
+
 $str_assentos = filter_input(INPUT_POST, "assentos");
 
 if (!empty($str_assentos)) {

@@ -396,7 +396,7 @@ include_once("../../back/conexao.php"); //incluindo conexão
 
         ?>
           <!-- ===== Card dos Vôos Existentes ====== -->
-          <a href="../assentos.php?voo=<?php echo $id_voo?>&ida=<?php echo $aviao_ida; if($tipo == 'Ida e Volta'){?>&volta=<?php echo $aviao_volta;}?>"> <!-- Enviar para Tela de Assentos -->
+          <a href="../assentos<?php if ($tipo == 'Ida e Volta'){echo '1';}else{echo '2';}?>.php?voo=<?php echo $id_voo?>&ida=<?php echo $aviao_ida; if($tipo == 'Ida e Volta'){?>&volta=<?php echo $aviao_volta;}?>"> <!-- Enviar para Tela de Assentos -->
             <div class="card mb-3 shadow" id="cards-bab" style="width: 90%; margin: 0 auto;">
               <div class="card-body" id="demo" style="padding: 0;">
 

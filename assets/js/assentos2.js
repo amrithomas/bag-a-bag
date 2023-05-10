@@ -5,11 +5,18 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 let assentos = [];
 let nmrAssento;
 let passageiro = 0;
+let limite = document.getElementById('limite').value;
+
+// var resposta = JSON.parse(xhr.responseText);
+// var limite =  parseInt(resposta.limite);
+
 
 function envia(valor){
-    
-    //Limitar a inserção de poltronas
 
+    console.log(limite);
+    
+    
+    if(limite > passageiro){
         
         //Gerador de Divs dentro do Selecionador de Assentos
         document.getElementById('ListaAssentos').innerHTML = 
@@ -24,9 +31,9 @@ function envia(valor){
         
         //Atualiza Número do Passageiro (id fica com o numero do assento)
         passageiro = passageiro + 1;
-    
+        
         document.getElementById('passageiro'+valor).innerHTML = 'Passageiro ' + passageiro;
-    
+        
         //Recebendo a Posição de Cada Poltrona                                                              
         nmrAssento = document.getElementById('poltrona' + valor).value;
         
@@ -39,8 +46,16 @@ function envia(valor){
         //Acumulador dos Assentos Selecionados
         assentos.push(nmrAssento);
         
-        // console.log(assentos);
+        console.log(assentos);
         // console.log(passageiro);
+        //Limitar a inserção de poltronas
+        
+    }
+    
+
+
+    
+    
     
     
 }
