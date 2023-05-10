@@ -10,7 +10,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if(empty($row)) {
-  echo "<script>location.href='./login.php';</script>";
+  echo "<script>location.href='../login.php';</script>";
 }
 
 $consulta = "SELECT * FROM  admin";

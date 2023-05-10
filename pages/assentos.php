@@ -180,8 +180,10 @@ if(isset($_POST['tipo'])){
     // Atualiza o título de acordo com o valor de $tipo
     if($tipo == 'Econômica') {
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos Econômicos";</script>';
+      // div assentos primeira classe, display: none;
     } else {
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos de Primeira Classe";</script>';
+      // div assentos classe economica, display: none;
     }
 
 
@@ -196,7 +198,7 @@ if(isset($_POST['tipo'])){
     $comando = 
     "SELECT NUMERO_ASSENTO FROM assentos
     INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO            
-    INNER JOIN voo ON  voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO = '$id_voo' AND CLASSE = '$tipo'
+    INNER JOIN voo ON  voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO = '$id_voo'  AND CLASSE = '$tipo'
     ";
     $query = mysqli_query($conn,$comando);
     $row_resultado = mysqli_fetch_all($query);
@@ -205,7 +207,7 @@ if(isset($_POST['tipo'])){
     $comando_ocupado = 
     "SELECT NUMERO_ASSENTO FROM assentos
     INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO               
-    INNER JOIN passagem ON passagem.FK_ASSENTO = ID_ASSENTO WHERE FK_VOO = '$id_voo' AND CLASSE = '$tipo'
+    INNER JOIN passagem ON passagem.FK_ASSENTO = ID_ASSENTO WHERE FK_VOO = '$id_voo'  AND CLASSE = '$tipo'
     ";
     $query_ocupado = mysqli_query($conn,$comando_ocupado);
     $row_resultado_ocupado = mysqli_fetch_all($query_ocupado);
@@ -245,13 +247,14 @@ if(isset($_POST['tipo'])){
     //   echo 'nao tem coisa';
     // }
 
+    echo 'Voo Selecionado ID:' . $id_voo;
 
     //Listagem de Linhas
     while($x < (count($row_resultado))){ 
       
       $x = $x + 1; //Variável correspondente ao número de cada poltrona
       $y = $y + 1; //Variável capaz de organizar a impressão das poltronas
-      if($y == 5){ //Filtro limitador da quantidade de variáveis
+      if($y == 5){ //Filtro limitador da quantidade de poltronas por linha
         $y = 1;
       }
       
