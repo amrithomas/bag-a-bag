@@ -88,47 +88,12 @@ function validarDataRg($data_emissao){
     $diff = date_diff(date_create($data_emissao), date_create($data_atual));
     $idade = $diff->format('%y');
     
-    // Verificar se o número de CPF tem 11 dígitos
-    if (strlen($cpf) != 11) {
-        return false;
-    }
-    
-    // Verificar se todos os dígitos são iguais
-    if (preg_match('/^(\d)\1*$/', $cpf)) {
-        return false;
-    }
-    
-    // Calcular o primeiro dígito verificador
-    $soma = 0;
-    for ($i = 0; $i < 9; $i++) {
-        $soma += ($cpf[$i] * (10 - $i));
-    }
-    $resto = ($soma % 11);
-    if ($resto < 2) {
-        $dv1 = 0;
+    if ($idade < 10 && $data_atual >= $data_emissao){
+        return true;
     } else {
-		$dv1 = (11 - $resto);
-	}
-    
-    // Calcular o segundo dígito verificador
-    $soma = 0;
-    for ($i = 1; $i < 10; $i++) {
-        $soma += ($cpf[$i] * (11 - $i));
-    }
-    $resto = ($soma % 11);
-    if ($resto < 2) {
-        $dv2 = 0;
-    } else {
-		$dv2 = (11 - $resto);
-	}
-    
-    // Verificar se os dígitos verificadores são iguais aos últimos dois dígitos do CPF
-    if ($dv1 != $cpf[9] || $dv2 != $cpf[10]) {
         return false;
+        //$_SESSION["data_rg"] = "<p style='color: red;'>Data de emissão inválida</p>"; 
     }
-    
-    // CPF válido
-    return true;
 }
 
 function criarFormulario($total_passageiros) {

@@ -46,6 +46,76 @@
     }
     </script>
 
+<script>
+    
+    function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('endereco').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('estado').value=("");
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('endereco').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('estado').value=(conteudo.uf);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('endereco').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('estado').value="...";
+
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
+    </script>
+
 </head>
 
 <body>
@@ -130,28 +200,28 @@
           <div class="half-box">
             <div class="col">
               <label for = "name" class="required" style = "color: #5c9f24">Nome</label>
-              <input type = "text" name="name" class="form-control required" style = "background-color: #FFF; border-color: black" name = "name" id = "name">
+              <input type = "text" name="name" class="form-control required" style = "background-color: #FFF; border-color: black" name = "name" id = "name" placeholder="Digite seu nome">
             </div>
           </div>
           <div class = "half-box">
               <label for = "lastname" style = "color: #5c9f24">Nome do meio (opcional)</label>
-              <input type = "text" name="middlename" class="form-control required" style = "background-color: #FFF; border-color: black" name = "sobrenome" id = "sobrenome">
+              <input type = "text" name="middlename" class="form-control required" style = "background-color: #FFF; border-color: black" name = "sobrenome" id = "sobrenome" placeholder="Digite seu nome do meio">
           </div>
         </div>
         <div class = "half-box" style = "width: 88%;">
           <div class="col-6">
             <label for = "ultname" class="required" style = "color: #5c9f24">Sobrenome</label>
-            <input type="text" name="ultname"  class="form-control required" style = "background-color: #FFF; border-color: black" name = "ultname" id = "ultname">
+            <input type="text" name="ultname"  class="form-control required" style = "background-color: #FFF; border-color: black" name = "ultname" id = "ultname" placeholder="Digite seu sobrenome">
           </div>
         </div>
         <div class="row">
           <div class = "half-box">
             <label for = "cpf" class="required" style = "color: #5c9f24" >CPF</label>
-            <input type = "number" class="form-control required" style = "background-color: #FFF; border-color: black" name = "cpf" id = "cpf">
+            <input type = "number" class="form-control required" style = "background-color: #FFF; border-color: black" name = "cpf" id = "cpf" placeholder="Digite seu CPF">
           </div>
           <div class = "half-box">
             <label for = "rg" class="required" style = "color: #5c9f24">RG</label>
-            <input type = "number" name = "rg" id = "rg" class="form-control required" style = "background-color: #FFF; border-color: black">
+            <input type = "number" name = "rg" id = "rg" class="form-control required" style = "background-color: #FFF; border-color: black" placeholder="Digite seu RG">
           </div>
         </div>
         <div class="row">
@@ -178,53 +248,53 @@
          </div>
             <div class = "half-box">
               <label for = "email" class="required" style = "color: #5c9f24">E-mail</label>
-              <input type = "email" name = "email" id = "email" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "email" name = "email" id = "email" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite seu e-mail">
             </div>
           <div class="row">
               <div class = "half-box">
                 <label for = "number" class="required" style = "color: #5c9f24">CEP</label>
-                <input type = "number" name = "cep" id = "cep" class="form-control required" style = "background-color: #FFF; border-color: #000">
+                <input type = "number" name = "cep" id = "cep" class="form-control required" style = "background-color: #FFF; border-color: #000" onblur="pesquisacep(this.value);" placeholder="Digite seu CEP">
               </div>
               <div class = "half-box">
                 <label for = "estado" class="required" style = "color: #5c9f24">UF</label>
-                <input type = "estado" name = "estado" id = "estado" class="form-control required" style = "background-color: #FFF; border-color: #000">
+                <input type = "estado" name = "estado" id = "estado" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite sua UF">
               </div>
               
           </div>
           <div class="row">
             <div class = "half-box">
               <label for = "cidade" class="required" style = "color: #5c9f24">Cidade</label>
-              <input type = "cidade" name = "cidade" id = "cidade" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "cidade" name = "cidade" id = "cidade" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite sua cidade">
             </div>
             <div class = "half-box">
               <label for = "bairro" class="required" style = "color: #5c9f24">Bairro</label>
-              <input type = "bairro" name = "bairro" id = "bairro" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "bairro" name = "bairro" id = "bairro" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite seu bairro">
             </div>
           </div>
           <div class="row">
             <div class = "half-box">
               <label for = "endereco" class="required" style = "color: #5c9f24">Logradouro</label>
-              <input type = "endereco" name = "endereco" id = "endereco" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "endereco" name = "endereco" id = "endereco" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite seu logradouro">
             </div>
           </div>
           <div class="row" style = "margin-bottom: 10%">
             <div class = "half-box">
               <label for = "number" class="required" style = "color: #5c9f24">N°</label>
-              <input type = "number" name = "numero" id = "numero" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "number" name = "numero" id = "numero" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Digite o número da sua casa">
             </div>
             <div class = "half-box">
               <label for = "complemento" style = "color: #5c9f24">Complemento</label>
-              <input type = "complemento" name = "complemento" id = "complemento" class = "form-control" style = "background-color: #FFF; border-color: #000"> 
+              <input type = "complemento" name = "complemento" id = "complemento" class = "form-control" style = "background-color: #FFF; border-color: #000" placeholder="Digite informações adicionais"> 
             </div>
           </div>
           <div class="row">
             <div class = "half-box">
               <label for = "password" class="required" style = "color: #5c9f24">Senha</label>
-              <input type = "password" name = "senha" id = "senha" class="form-control required" style = "background-color: #FFF; border-color:#000">
+              <input type = "password" name = "senha" id = "senha" class="form-control required" style = "background-color: #FFF; border-color:#000" placeholder="Digite alguma senha">
             </div>
             <div class = "half-box">
               <label for = "password" class="required"style = "color: #5c9f24">Confirmar senha</label>
-              <input type = "password" name = "confsenha" id = "confsenha" class="form-control required" style = "background-color: #FFF; border-color: #000">
+              <input type = "password" name = "confsenha" id = "confsenha" class="form-control required" style = "background-color: #FFF; border-color: #000" placeholder="Repita sua senha">
             </div>
           </div>
             <div class="full-box">

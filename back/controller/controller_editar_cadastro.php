@@ -102,7 +102,7 @@
             header("Location: ../../pages/user.php?id=$id");
         } else {
             //$_SESSION["msg"] = "<p style='color: blue;'>Usuário não foi editado.</p>";
-            header("Location: ../../pages/alteracoes_cadastro?id=$id");
+            header("Location: ../../pages/alteracoes_cadastro.php?id=$id");
         }
     }
 
