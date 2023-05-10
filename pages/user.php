@@ -14,7 +14,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if (empty($row)) {
-  header('Location: ../index.html');
+  header('Location: login.html');
 }
 //Select para puxar dados da reserva | While para apresentar dados necessários posteriormente
 $query4= "SELECT ID_RESERVA FROM reserva WHERE FK_USUARIO = '$id'";
@@ -153,26 +153,8 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
                 <li><a href="#">Drop Down 4</a></li>
               </ul> -->
           </li>
-          <?php
-          //VERIFICANDO SE TEM UM USUARIO LOGADO
-          if (isset($_SESSION['id_usuario'])) {
-            $id = $_SESSION['id_usuario'];
-
-            $query = "SELECT * FROM usuario 
-              INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
-              INNER JOIN cadastro ON FK_CADASTRO = ID_CADASTRO
-              WHERE ID_USUARIO='$id'";
-            $query = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($query);
-            //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="getstarted scrollto" href="user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
-            echo '<li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php">LOGOFF</a></li>';
-          } else {
-            //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="nav-link scrollto" href="login.html" style="margin-left: 80px;">LOGIN</a></li>';
-            echo '<li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>';
-          }
-          ?>
+          <li><a class="getstarted scrollto" href="<?php echo "user.php?id=" . $row['ID_USUARIO'] ?>" style = "margin-left: 80px;">Ver perfil</a></li>
+          <li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php" >LOGOFF</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -190,7 +172,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
         <p>Telefone: <?php echo $row['DDD'] . ' ' . $row['NUMERO_TELEFONE'] ?></p>
       </div>
       <div class="col-lg-2">
-        <a href="">
+        <a href="<?php echo "alteracoes_cadastro.php?id=" . $row['ID_USUARIO'] ?>">
           <button type="submit" style="min-width: 80px;" class="btn btn-outline-success text-center">
             <i class="bi bi-gear"></i>
             Editar
@@ -309,8 +291,8 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Conta</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Login</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Cadastre-se</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="<?php echo "user.php?id=" . $row['ID_USUARIO'] ?>">Ver perfil</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../back/controller/controller_logoff.php">Logoff</a></li>
               <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li> -->
