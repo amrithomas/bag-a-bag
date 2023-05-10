@@ -292,9 +292,31 @@ include_once("../../back/conexao.php"); //incluindo conexão
         <div class="container text-center">
           <h1 class="mt-3 mb-3">Vôos</h1>
 
-          <button type="button" id="botao-modal" class="btn btn-outline-success mb-5" data-bs-toggle="modal" data-bs-target="#meuModal">
-            Filtrar e Ordenar
-          </button>
+          <?php
+          $tipo = 'Apenas Ida';
+
+          // Verifica se o formulário foi enviado
+          if(isset($_POST['tipo'])){
+            // Atualiza a variável com o valor enviado pelo formulário
+            $tipo = $_POST['tipo'];
+          }
+          $_SESSION['tipoVoo'] = $tipo;
+          ?>
+
+
+        <button type="button" id="botao-modal" class="btn btn-outline-success mb-5" data-bs-toggle="modal" data-bs-target="#meuModal">
+          Filtrar e Ordenar
+        </button>
+
+        <div class="text-start" style="border: solid 0px red; width: 90%; margin: 0 auto;">
+
+          <form method="post">
+          <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="tipoSwitch" name="tipo" value="Ida e Volta" <?php if($tipo == 'Ida e Volta'){ echo 'checked'; } ?> onchange="this.form.submit()">
+              <label class="form-check-label" for="tipoSwitch"><?php if ($tipo == 'Apenas Ida'){echo 'Apenas Ida';}else{echo 'Ida e Volta';} ?></label>
+          </div>
+          </form>
+        </div>
         </div>
 
         <?php
@@ -310,14 +332,16 @@ include_once("../../back/conexao.php"); //incluindo conexão
           voo.VOLTA_HORARIO_CHEGADA,
           av1.EMPRESA AS EMPRESA_AVIAO_IDA,
           av2.EMPRESA AS EMPRESA_AVIAO_VOLTA,
-          -- av1.CODIGO_AVIAO AS CODIGO_AVIAO_IDA, código do aviao dispensavel
-          -- av2.CODIGO_AVIAO AS CODIGO_AVIAO_VOLTA, código do aviao dispensavel
+          -- av1.AVIAO_IDA AS FK_AVIAO_IDA,  -- código do aviao dispensavel
+          -- av2.AVIAO_VOLTA AS FK_AVIAO_VOLTA, -- código do aviao dispensavel
           origem_ida.NOME_AEROPORTO AS NOME_AEROPORTO_ORIGEM_IDA,
           destino_ida.NOME_AEROPORTO AS NOME_AEROPORTO_DESTINO_IDA,
           -- origem_volta.NOME_AEROPORTO AS NOME_AEROPORTO_ORIGEM_VOLTA,
           -- destino_volta.NOME_AEROPORTO AS NOME_AEROPORTO_DESTINO_VOLTA,
           aeroporto_ida.NOME_AEROPORTO AS NOME_AEROPORTO_ESCALA_IDA,
-          aeroporto_volta.NOME_AEROPORTO AS NOME_AEROPORTO_ESCALA_VOLTA
+          aeroporto_volta.NOME_AEROPORTO AS NOME_AEROPORTO_ESCALA_VOLTA,
+          voo.FK_AVIAO_IDA,
+          voo.FK_AVIAO_VOLTA
           FROM voo 
           LEFT JOIN aeroporto AS origem_ida ON voo.FK_ORIGEM_AERO = origem_ida.ID_AEROPORTO
           LEFT JOIN aeroporto AS destino_ida ON voo.FK_DESTINO_AERO = destino_ida.ID_AEROPORTO
@@ -334,130 +358,55 @@ include_once("../../back/conexao.php"); //incluindo conexão
         $query = mysqli_query($conn, $comando);
         $row_resultado = mysqli_fetch_all($query);
 
-        // ======================================== Fim Query 01 ================================================
-
-        // $query4= "SELECT ID_RESERVA FROM reserva WHERE FK_USUARIO = '$id'";
-        // $result4 = mysqli_query($conn, $query4);
-        // $row4 = mysqli_fetch_assoc($result4);
-        // $reservas_ids = [];
-        // $j = 0;
-        // $total_reserva = 0;
-
-        // while ($row4 = mysqli_fetch_assoc($result4)) {
-        // $total_reserva++;
-        // $reservas_ids[$j] = $row4['ID_RESERVA'];
-        // $j++;
-        // }
-
-
-        // for($i=0; $i < count($reservas_ids) ; $i++){
-
-
-        // }
-
-  
-        // $query1 = "SELECT * FROM passagem
-        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
-        // INNER JOIN voo ON FK_VOO = ID_VOO
-        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
-        // INNER JOIN aeroporto AS origem ON FK_ORIGEM_AERO = origem.ID_AEROPORTO
-        // INNER JOIN aeroporto AS destino ON FK_DESTINO_AERO = destino.ID_AEROPORTO
-        // WHERE FK_USUARIO = '$id'
-        // GROUP BY FK_RESERVA
-        // ORDER BY ID_RESERVA DESC;";
-
-
-        // $result1 = mysqli_query($conn, $query1);
-
-        // $query2 = "SELECT passagem.*, aviao.*, origem.CIDADE as ORIGEM_CIDADE, destino.CIDADE as DESTINO_CIDADE
-        // FROM passagem
-        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
-        // INNER JOIN voo ON FK_VOO = ID_VOO
-        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
-        // JOIN aeroporto origem ON voo.FK_ORIGEM_AERO = origem.ID_AEROPORTO
-        // JOIN aeroporto destino ON voo.FK_DESTINO_AERO = destino.ID_AEROPORTO
-        // WHERE FK_USUARIO = '$id'
-        // GROUP BY FK_RESERVA
-        // ORDER BY ID_RESERVA DESC;";
-
-
-        // $result2 = mysqli_query($conn, $query2);
-
-
-
-
-        // $query3 = "SELECT a1.CODIGO_AVIAO AS CODIGO_AVIAO_IDA, a2.CODIGO_AVIAO AS CODIGO_AVIAO_VOLTA
-        // FROM passagem
-        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
-        // INNER JOIN voo ON FK_VOO = ID_VOO
-        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
-        // JOIN aviao a1 ON FK_AVIAO_IDA = a1.ID_AVIAO
-        // JOIN aviao a2 ON FK_AVIAO_VOLTA = a2.ID_AVIAO
-        // WHERE FK_USUARIO = '$id'
-        // GROUP BY FK_RESERVA
-        // ORDER BY ID_RESERVA DESC;";
-
-
-
-
-        // $result3 = mysqli_query($conn, $query3);
-
-
-
-
-        // Criar o array associativo combinando os resultados dos SELECTs
-
-        // $data = array();
-
-        // while ($row2 = mysqli_fetch_assoc($result2)) {
-        // $row1 = mysqli_fetch_assoc($result1);
-        // $combined_row = array_merge($row1, $row2);
-        // $row3 = mysqli_fetch_assoc($result3);
-        // $final_row = array_merge($combined_row, $row3);
-        // $data[] = $final_row;
-        // }
-
+        if ($tipo == 'Ida e Volta'){
+          $mult = 2; //Variável para o cálculo dos valores caso a opção de ida e volta esteja ativa
+        }else{
+          $mult = 1;
+        }
         
-
-        // var_dump($data);
         
-
-        // var_dump($row_resultado[5][0]);
-
         $x = 0;
 
         while ($x < (count($row_resultado))) {
           $x = $x + 1;
           //Variável que Representa o ID do Voo
           $id_voo = $row_resultado[$x - 1][0]; //<- Esse último número representa a coluna a ser obtida as informações, indo de 0(id_voo) até 11(nome_aeroporto_escala_volta) 
+          
+          $aviao_ida = $row_resultado[$x-1][12];
+          $aviao_volta = $row_resultado[$x-1][13];
 
           //obter local de origem ida
           $local_ida_full = $row_resultado[$x - 1][8];
           $pattern = '/^Aeroporto de|^Aeroporto Internacional de|^Aeroporto do|^Aeroporto Internacional do|^Aeroporto da|^Aeroporto Internacional da/';
-          $locais_ida_origem = preg_replace($pattern, '', $local_ida_full);
+          $locais_origem = preg_replace($pattern, '', $local_ida_full);
+          
 
           //obter local de origem ida
           $local_volta_full = $row_resultado[$x - 1][9];
           $pattern = '/^Aeroporto de|^Aeroporto Internacional de|^Aeroporto do|^Aeroporto Internacional do|^Aeroporto da|^Aeroporto Internacional da/';
-          $locais_ida_destino = preg_replace($pattern, '', $local_volta_full);
+          $locais_destino = preg_replace($pattern, '', $local_volta_full);
+          
 
+          $valor_voo = $row_resultado[$x - 1][1]*$mult;
+          $valor_voo12x = number_format(($row_resultado[$x - 1][1]*$mult) / 12, 2, '.', "");
+          
           //obter valor da cadeira
-          $_SESSION['valor_poltrona'] = $row_resultado[$x - 1][1]
-
+          $_SESSION['valor_poltrona'] = $row_resultado[$x - 1][1];
+          
 
         ?>
           <!-- ===== Card dos Vôos Existentes ====== -->
-          <a href="../assentos.php?voo=<?php echo $id_voo ?>"> <!-- Enviar para Tela de Assentos -->
+          <a href="../assentos.php?voo=<?php echo $id_voo?>&ida=<?php echo $aviao_ida; if($tipo == 'Ida e Volta'){?>&volta=<?php echo $aviao_volta;}?>"> <!-- Enviar para Tela de Assentos -->
             <div class="card mb-3 shadow" id="cards-bab" style="width: 90%; margin: 0 auto;">
               <div class="card-body" id="demo" style="padding: 0;">
 
                 <div class="row">
                   <!-- Informações do Vôo -->
-                  <div class="col-9" id="card-voo-left">
+                  <div class="col-9 <?php if ($tipo == 'Apenas Ida'){echo'mt-3';} ?>" id="card-voo-left">
                     <div class="card-title row">
                       <h5 class="col-3" style="color:#3A5C1D;">IDA <?php // echo $id_voo 
                                                                     ?></h5>
-                      <h5 class="col-9 text-center"><?php echo $locais_ida_origem ?> ➝ <?php echo $locais_ida_destino ?></h5>
+                      <h5 class="col-9 text-center"><?php echo $locais_origem ?> ➝ <?php echo $locais_destino ?></h5>
                     </div>
 
                     <hr>
@@ -466,14 +415,17 @@ include_once("../../back/conexao.php"); //incluindo conexão
                         <i class="bi bi-check-circle" style="color:green;"></i>
                         <?php echo $row_resultado[$x - 1][6] ?>
                       </h6>
-                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:m', strtotime($row_resultado[$x - 1][2])) ?> ➝ <?php echo date('d/m/y H:m', strtotime($row_resultado[$x - 1][3])) ?></h6>
+                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:i', strtotime($row_resultado[$x - 1][2])) ?> ➝ <?php echo date('d/m/Y H:i', strtotime($row_resultado[$x - 1][3])) ?></h6>
                     </div>
 
                     <hr>
+                    <?php 
+                    if ($tipo == 'Ida e Volta'){
 
+                      ?>
                     <div class="card-title row">
                       <h5 class="col-3" style="color:#3A5C1D;">VOLTA</h5>
-                      <h5 class="col-9 text-center">A definir ➝ A definir</h5>
+                      <h5 class="col-9 text-center"><?php echo $locais_destino ?> ➝ <?php echo $locais_origem ?></h5>
                     </div>
 
                     <hr>
@@ -482,16 +434,18 @@ include_once("../../back/conexao.php"); //incluindo conexão
                         <i class="bi bi-check-circle" style="color:green;"></i>
                         <?php echo $row_resultado[$x - 1][7] ?>
                       </h6>
-                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:m', strtotime($row_resultado[$x - 1][4])) ?> ➝ <?php echo date('d/m/Y H:m', strtotime($row_resultado[$x - 1][5])) ?></h6>
+                      <h6 class="col-9 text-center"><?php echo date('d/m/Y H:i', strtotime($row_resultado[$x - 1][4])) ?> ➝ <?php echo date('d/m/Y H:i', strtotime($row_resultado[$x - 1][5])) ?></h6>
                     </div>
-
+                    <?php
+                  }
+                  ?>
                   </div>
                   <!-- Valor do Vôo -->
-                  <div class="text-center col-3 " id="card-voo-right">
-                    <h4 class="card-title mt-5"><?php echo $row_resultado[$x - 1][1]; ?></h4>
+                  <div class="text-center col-3" style="padding-top:3%; padding-bottom:1%" id="card-voo-right">
+                    <h4 class="card-title mt-3"><?php echo 'R$' . $valor_voo; ?></h4>
                     <h6 class="card-subtitle mt-1 text-body-secondary">por adulto, sem taxas</h6>
-                    <p class="mt-2" style="margin:-2px;">ou</p>
-                    <p class="mt-1">12x de R$<?php echo number_format($row_resultado[$x - 1][1] / 12, 2, '.', ""); ?></p>
+                    <p class="mt-1" style="margin:-2px;">ou</p>
+                    <p class="">12x de R$<?php echo $valor_voo12x; ?></p>
 
                     <!-- <input type="button" class="btn btn-success mt-3" value="Fazer Pedido"> -->
                   </div>

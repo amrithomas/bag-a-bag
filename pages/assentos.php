@@ -149,7 +149,7 @@ if(isset($_POST['tipo'])){
           <div class="card card-body" style="width: 300px;">
             <!-- <input type="radio" id="ast" name="ast" enabled> -->
             <div class="row text-center">
-              <h6 class="col-10">Assentos Selecionados</h6>
+              <h6 class="col-10">Assentos Selecionados: <?php echo $_SESSION['tipoVoo'];?></h6>
               <button type="button"  data-bs-toggle="collapse" data-bs-target="#cardAssento" class="btn-close col-2"  aria-label="Close"></button>
 
             </div>
@@ -162,6 +162,8 @@ if(isset($_POST['tipo'])){
 
             <div class="row offset-1 mt-1">
               <input type="hidden" id="enviaArray" name="assentos" value=""/>
+              <input type="hidden" name="aviao_ida" value="<?php $aviao_ida?>"/>
+              <input type="hidden" name="aviao_volta" value="<?php $aviao_volta?>"/>
               <button type="submit" onclick="enviadado()" class="btn btn-success col-5" id="">
                 Prosseguir
               </button>
@@ -186,13 +188,22 @@ if(isset($_POST['tipo'])){
       // div assentos classe economica, display: none;
     }
 
+    //Obtendo os IDs dos aviões utilizados para ida e volta
+    $aviao_ida = $aviao_ida = filter_input(INPUT_GET,'ida');
 
+    if ($_SESSION['tipoVoo'] == 'Ida e Volta'){
+      $aviao_volta = filter_input(INPUT_GET,'volta');
+    }else{
+      $aviao_volta = '';
+    }
+
+    // echo $aviao_ida;
+    // echo $aviao_volta;
+
+    //Obtendo o ID do voo Escolhido
     $_SESSION['id_voo'] = filter_input(INPUT_GET,'voo');
     $id_voo = filter_input(INPUT_GET,'voo');
 
-    // $tipo = filter_input(INPUT_GET,'tipo');
-    // var_dump($tipo);
-    // $tipo = 'Primeira';
     
     //Obter Quantidade de Assentos
     $comando = 
@@ -237,17 +248,7 @@ if(isset($_POST['tipo'])){
     // echo $x;
     // echo $z;
 
-    // echo $row_resultado[0][0];
-
-    // if (!empty($row_resultado_ocupado)){
-    //   $z = $row_resultado_ocupado[0][0];
-    //   echo 'tem coisa';
-    // }else{
-    //   $z = 0;
-    //   echo 'nao tem coisa';
-    // }
-
-    echo 'Voo Selecionado ID:' . $id_voo;
+    // echo 'Voo Selecionado ID:' . $id_voo;
 
     //Listagem de Linhas
     while($x < (count($row_resultado))){ 
@@ -262,8 +263,6 @@ if(isset($_POST['tipo'])){
       if($z < (count($row_resultado_ocupado))){
         $z = $z + 1;
       }
-      
-      
       
       
       //Listagem Primeira Poltrona do Lado Esquerdo
