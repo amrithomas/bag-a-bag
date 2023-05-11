@@ -160,7 +160,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
     </div>
   </header>
   <!-- End Header -->
-  <main id="main" class="mt-5 container">
+  <main id="main" class="mt-5 container" style="min-height: 80vh;">
     <section class="row d-flex align-items-center justify-content-center" id="profile">
     <?php
     if (isset($_SESSION['msg'])) {
@@ -258,8 +258,12 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
               
               $diff = date_diff(date_create($data_partida), date_create($agora));
               $dias_para_voo = $diff->days;
+              if ($data[$i]['STATUS_RESERVA'] == 'Pendente' && $data_partida < $agora || $dias_para_voo <= 2) {
+                $result_usuario = "UPDATE reserva SET STATUS_RESERVA = 'Cancelada'";
+                $resultado_usuario = mysqli_query($conn, $result_usuario);
+              }
             ?>
-            <?php if($data_partida < $agora && ($data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente')){ ?>
+            <?php if($data_partida < $agora && $data[$i]['STATUS_RESERVA'] == 'Cancelada'){ ?>
               <p class="card-text mt-2" style="color: green">Voo realizado </p>
             <!-- Verificando se a data de partida do voo (daquela reserva) é posterior a data atual em dois dias, e a reserva é ou confirmada ou pendente (para conseguir cancelar caso o usuário queira)  -->
             <?php } else if(($data_partida > $agora) && ($dias_para_voo > 2) && ($data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente')){  ?>
@@ -268,6 +272,17 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
                 <button type="submit" style="min-width: 80px;" class="btn btn-outline-danger text-center " onclick="location.reload();">
                   <i class="bi bi-x-lg"></i>
                 Cancelar
+              </button>
+              </form>
+              <?php } if(($data_partida > $agora) && ($dias_para_voo > 2) &&  $data[$i]['STATUS_RESERVA'] == 'Pendente'){  ?>
+              <form action="pagamento.php" method="post">
+                <?php $_SESSION['valor_total'] = $data[$i]['VALOR_TOTAL']; ?>
+                <?php $_SESSION['id_reserva'] = $data[$i]['ID_RESERVA']; ?>
+                <input type="hidden" name="id_reserva" value="<?php echo $data[$i]['ID_RESERVA']; ?>">
+                <input type="hidden" name="valor_total" value="<?php echo $data[$i]['VALOR_TOTAL']; ?>">
+                <button type="submit" style="min-width: 80px; margin-top: 1%;" class="btn btn-outline-success text-center ">
+                  <i class="bi bi-check2"></i>
+                Pagar
               </button>
               </form>
           <?php } ?> 
@@ -280,7 +295,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
 
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
+  <footer id="footer" style="position: 0">
     <div class="footer-top">
       <div class="container">
         <div class="row">
