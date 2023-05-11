@@ -86,8 +86,6 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
 
 
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -182,7 +180,10 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
     </section>
 
     <section id="reservar" class="container">
+      <!-- Verificando se tem uma reserva para apresentar a mensagem -->
+    <?php if (!empty($data[$i]['ID_RESERVA'])) { ?>
       <h2 class="text-center">Últimas Reservas</h2>
+      <?php } ?>
       <!-- Trazendo os dados de reservas encontrados nos selects -->
       <?php for ($i=0; $i < count($data); $i++) {  
         
@@ -243,7 +244,25 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
                 <p class="card-text mt-2">CPF: <?php echo $row_passageiro['CPF_PASSAGEIRO']; ?></p>
                 <p class="card-text mt-2">Data de nascimento: <?php echo $data_formatada; ?></p>
                 <p class="card-text mt-2">Telefone: <?php echo $row_passageiro['DDD'] . ' ' . $row_passageiro['NUMERO_TELEFONE']; ?></p>
+            <?php } 
+              // buscando ano/mês/dia de agora | buscando ano/mês/dia do voo da reserva
+              $agora = date('Y-m-d');
+              $data_partida = date('Y-m-d', strtotime($data[$i]['IDA_HORARIO_PARTIDA']));
+            ?>
+            <?php if($data_partida < $agora && $data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente'){ ?>
+              <p class="card-text mt-2" style="color: green">Voo realizado </p>
             <?php } ?>
+            <!-- Verificando se a data de partida do voo (daquela reserva) é posterior a data atual, e a reserva é ou confirmada ou pendente (para conseguir cancelar caso o usuário queira)  -->
+            <?php if($data_partida > $agora && $data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente'){  ?>
+              
+              <form action="../back/controller/controller_update_reserva.php" method="post">
+                <input type="hidden" name="id_reserva" value="<?php echo $data[$i]['ID_RESERVA']; ?>">
+                <button type="submit" style="min-width: 80px;" class="btn btn-outline-danger text-center " onclick="location.reload();">
+                  <i class="bi bi-x-lg"></i>
+                Cancelar
+              </button>
+              </form>
+          <?php } ?> 
         <?php } ?> 
         </div>
       </div>
