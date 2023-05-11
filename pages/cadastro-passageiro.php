@@ -133,7 +133,7 @@ $total_passageiros = count($assentos);
               <li><a href="#">Drop Down 4</a></li>
             </ul> -->
           </li>
-          <li><a class="nav-link scrollto" href="./login.html" style = "margin-left: 80px;">LOGIN</a></li>
+          <li><a class="nav-link scrollto" href="./login.php" style = "margin-left: 80px;">LOGIN</a></li>
           <li><a class="getstarted scrollto" href="./cadastro.php">CADASTRE-SE</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -201,7 +201,7 @@ $total_passageiros = count($assentos);
         <div class="col-lg-3 col-md-6 footer-links">
             <h4>Conta</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="login.html">Login</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="login.php">Login</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Cadastre-se</a></li>
               <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>

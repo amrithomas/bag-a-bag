@@ -13,7 +13,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if(empty($row)) {
-  header('Location: ../pages/login.html');
+  header('Location: ../pages/login.php');
 }
 
 ?>

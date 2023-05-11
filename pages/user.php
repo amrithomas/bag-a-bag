@@ -14,7 +14,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if (empty($row)) {
-  header('Location: login.html');
+  header('Location: login.php');
 }
 //Select para puxar dados da reserva | While para apresentar dados necessários posteriormente
 $query4= "SELECT ID_RESERVA FROM reserva WHERE FK_USUARIO = '$id'";
@@ -164,6 +164,12 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
   <!-- End Header -->
   <main id="main" class="mt-5 container">
     <section class="row d-flex align-items-center justify-content-center" id="profile">
+    <?php
+    if (isset($_SESSION['msg'])) {
+      echo $_SESSION['msg'];
+      unset($_SESSION['msg']);
+    }
+    ?>
       <img src="../assets/img/user/icone_perfil.png" alt="" class="col-lg-2 col-sm-6">
       <div class="col-lg-8 col-sm-6 mt-2">
         <h1><?php echo ucfirst($row['NOME']) . ' ' . ucfirst($row['NOME_MEIO']) . ' ' . ucfirst($row['SOBRENOME']) ?></h1>

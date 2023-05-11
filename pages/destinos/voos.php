@@ -87,7 +87,7 @@ include_once("../../back/conexao.php"); //incluindo conexão
             echo '<li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php">LOGOFF</a></li>';
           } else {
             //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="nav-link scrollto" href="login.html" style="margin-left: 80px;">LOGIN</a></li>';
+            echo '<li><a class="nav-link scrollto" href="login.php" style="margin-left: 80px;">LOGIN</a></li>';
             echo '<li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>';
           }
           ?>

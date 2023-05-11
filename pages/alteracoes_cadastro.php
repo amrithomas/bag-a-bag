@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once('../back/conexao.php');
+date_default_timezone_set('America/Sao_Paulo');
 $id = filter_input(INPUT_GET, 'id' , FILTER_SANITIZE_NUMBER_INT);
 $result_cadastro = "SELECT * FROM usuario 
 INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
@@ -22,6 +23,8 @@ $row = mysqli_fetch_assoc($query);
 if(empty($row)) {
   echo "<script>location.href='../index.php';</script>";
 }
+
+$data_atual = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +149,7 @@ if(empty($row)) {
 <header id="header" class="fixed-top d-flex align-items-center">
   <div class="container d-flex align-items-center justify-content-between">
 
-    <h1 class="logo"><a href="index.php">BAG-A-BAGₑ</a></h1>
+    <h1 class="logo"><a href="../index.php">BAG-A-BAGₑ</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
     <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -178,6 +181,12 @@ if(empty($row)) {
 
 <main class="main-alteracoes">
   <h5>Alteração Cadastral</h5>
+  <?php
+    if (isset($_SESSION['msg'])) {
+      echo $_SESSION['msg'];
+      unset($_SESSION['msg']);
+    }
+  ?>
   </div>
   <!-- <form action="#" method> -->
   <div class="row">
@@ -224,7 +233,7 @@ if(empty($row)) {
       <div class="row">
         <div class="half-box">
           <label for="date" style="color: #5c9f24">Data de emissão (RG)</label>
-          <input type="date" name="data_emissao" id="dataexpedicao" class="form-control"
+          <input type="date" name="data_emissao" id="dataexpedicao" class="form-control" max="<?php echo $data_atual;?>" min="1904-01-01"
             style="background-color: #FFF; border-color: black" value="<?php echo $row_cadastro['DATA_EMISSAO']; ?>">
         </div>
         <div class="half-box">
@@ -308,6 +317,7 @@ if(empty($row)) {
       </div>
       <div class="botao">
         <button type="submit" id="cadastrar" class="btn btn-success">Salvar</button>
+        <a href="<?php echo "user.php?id=" . $row['ID_USUARIO'] ?>"><button type="button" id="cadastrar" class="btn btn-danger">Cancelar</button></a>
       </div>
       </form>
 </main>

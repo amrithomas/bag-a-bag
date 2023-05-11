@@ -84,7 +84,7 @@
             }
             else{
               //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-              echo '<li><a class="nav-link scrollto" href="pages/login.html" style="margin-left: 80px;">LOGIN</a></li>';
+              echo '<li><a class="nav-link scrollto" href="pages/login.php" style="margin-left: 80px;">LOGIN</a></li>';
               echo '<li><a class="getstarted scrollto" href="pages/cadastro.php">CADASTRE-SE</a></li>';
             }
           ?>
@@ -523,7 +523,7 @@
                 }
                 else {
                   //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-                  echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/login.html">Login</a></li>';
+                  echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/login.php">Login</a></li>';
                   echo '<li><i class="bx bx-chevron-right"></i> <a href="pages/cadastro.php">Cadastre-se</a></li>';
                 }
               ?>
