@@ -83,7 +83,7 @@ include_once("../../back/conexao.php"); //incluindo conexão
             $query = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($query);
             //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="getstarted scrollto" href="user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
+            echo '<li><a class="getstarted scrollto" href="../user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
             echo '<li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php">LOGOFF</a></li>';
           } else {
             //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
