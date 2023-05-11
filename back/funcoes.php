@@ -120,7 +120,7 @@ function criarFormulario($total_passageiros) {
               <div class='row'>
                 <div class = 'half-box'>
                   <label for = 'cpf_passageiro" . $i . "' class='required' style = 'color: #5c9f24' >CPF</label>
-                  <input type = 'number' name='cpf_passageiro" . $i . "' class='form-control required' style = 'background-color: #FFF; border-color: black' id = 'cpf'>
+                  <input type = 'text' maxlength = '11' name='cpf_passageiro" . $i . "' class='form-control required' style = 'background-color: #FFF; border-color: black' id = 'cpf'>
                 </div>
                 <div class = 'half-box'>
                     <label for = 'data_nasc_passageiro" . $i . "' class='required' style = 'color: #5c9f24'>Data de Nascimento</label>
@@ -170,7 +170,7 @@ function criarFormulario($total_passageiros) {
             <div class='row'>
                 <div class = 'half-box'>
                 <label for = 'cpf_passageiro" . $i . "' class='required' style = 'color: #5c9f24' >CPF</label>
-                <input type = 'number' name='cpf_passageiro" . $i . "' class='form-control required' style = 'background-color: #FFF; border-color: black' id = 'cpf'>
+                <input type = 'text' maxlength = '11' name='cpf_passageiro" . $i . "' class='form-control required' style = 'background-color: #FFF; border-color: black' id = 'cpf'>
                 </div>
                 <div class = 'half-box'>
                     <label for = 'data_nasc_passageiro" . $i . "' class='required' style = 'color: #5c9f24'>Data de Nascimento</label>

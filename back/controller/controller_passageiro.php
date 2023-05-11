@@ -35,7 +35,7 @@ $total_passageiros = count($assentos_ida);
 
 $assentos_pks = [];
 for ($i=0; $i < $total_passageiros; $i++) { 
-    $query = "SELECT ID_ASSENTO FROM assentos INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO INNER JOIN voo ON voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO=$id_voo AND NUMERO_ASSENTO=$assentos[$i]";
+    $query = "SELECT ID_ASSENTO FROM assentos INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO INNER JOIN voo ON voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO=$id_voo AND NUMERO_ASSENTO=$assentos_ida[$i]";
     $consulta = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($consulta);
     
