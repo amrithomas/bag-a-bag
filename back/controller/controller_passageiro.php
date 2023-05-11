@@ -44,12 +44,41 @@ $valor_total = $valor_passagem * $total_passageiros;
 for ($passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
     $nome = $array_dados[0+(7*$passageiro)];
     $sobrenome = $array_dados[1+(7*$passageiro)];
-    $cpf_passageiro = $array_dados[2+(7*$passageiro)];
+    $cpf_passageiro = $array_dados[2+(7*$passageiro)];  
+    $data_nasc_passageiro = $array_dados[3+(7*$passageiro)];  
 
     if (!(validarCPF($cpf_passageiro))) {
-        $_SESSION['msg'] = "<p style='color:red;'>Erro. O CPF informado para o passageiro <b> $nome $sobrenome </b> ($cpf_passageiro) é inválido.</p>";
-        echo "<script>location.href='../../pages/cadastro-passageiro.php';</script>";
+        $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. O CPF informado para o passageiro <b> $nome $sobrenome </b> ($cpf_passageiro) é inválido.</p>";
+        header("Location: ../../pages/cadastro-passageiro.php");
         break;
+    }
+    
+    // PROCURA POR REGISTROS COM O CPF INFORMADO
+    $sql = "SELECT * FROM passageiro WHERE CPF_PASSAGEIRO='$cpf_passageiro'";
+    $result = mysqli_query($conn, $sql);
+    
+    // CHECAGEM DE DADOS DO PASSAGEIRO COM O CPF INFORMADO
+    if(mysqli_num_rows($result)) {
+        $row = mysqli_fetch_assoc($result);
+
+        if ($row['DATA_NASC_PASSAGEIRO'] == $data_nasc_passageiro) {
+            if (($row['NOME_PASSAGEIRO'] != $nome) || ($row['SOBRENOME_PASSAGEIRO'] != $sobrenome)) {
+                $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Dados conflitantes.</p>";
+                header("Location: ../../pages/cadastro-passageiro.php");
+                exit;
+            }
+        }
+        else { 
+            if ($row['NOME_PASSAGEIRO'] == $nome && $row['SOBRENOME_PASSAGEIRO'] == $sobrenome) {
+                $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Dados conflitantes.</p>";
+                header("Location: ../../pages/cadastro-passageiro.php");
+                exit;
+            } else {
+                $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. O CPF informado para <b> $nome $sobrenome </b> ($cpf_passageiro) já foi cadastrado por outro passageiro</p>";
+                header("Location: ../../pages/cadastro-passageiro.php");
+                exit;
+            }
+        }
     }
 }
 
@@ -61,9 +90,11 @@ $consulta = mysqli_query($conn, $query);
 if (mysqli_insert_id($conn)) {
     $id_reserva = mysqli_insert_id($conn);
 } else {
-    $_SESSION['msg'] = "<p style='color:red;'>Erro. Não foi possível criar a reserva. Tente novamente.</p>";
-    echo "<script>location.href='../../pages/cadastro-passageiro.php';</script>";
+    $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Não foi possível criar a reserva. Tente novamente.</p>";
+    header("Location: ../../pages/cadastro-passageiro.php");
 }
+
+$passagens_criadas = 0;
 
 // CRIAÇÃO DE PASSAGEM
 for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
@@ -96,8 +127,8 @@ for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
             if (mysqli_insert_id($conn)) {
                 $id_telefone = mysqli_insert_id($conn);
             } else {
-                $_SESSION['msg'] = "<p style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
-                echo "<script>location.href='../../pages/cadastro-passageiro.php';</script>";
+                $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
+                header("Location: ../../pages/cadastro-passageiro.php");
                 break;
             }
 
@@ -112,36 +143,44 @@ for ($i=0, $passageiro=0; $passageiro < $total_passageiros; $passageiro++) {
         
         if (mysqli_insert_id($conn)) {
             $id_passageiro = mysqli_insert_id($conn);
-            $_SESSION['msg'] = "<p style='color:green;'>Cadastro realizado com sucesso.</p>";
+            $_SESSION['msg'] = "<p class='text-center' style='color:green;'>Cadastro realizado com sucesso.</p>";
         } else {
-            $_SESSION['msg'] = "<p style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
-            echo "<script>location.href='../../pages/cadastro-passageiro.php';</script>";
+            $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
+            header("Location: ../../pages/cadastro-passageiro.php");
             break;
         }
     }
     // SE HOUVER PASSAGEIRO COM OS DADOS INFORMADOS...
     else {
-        echo "JA TEM CADASTRO";
         $row = mysqli_fetch_assoc($consulta);
         $id_passageiro = $row['ID_PASSAGEIRO'];
+
+        // atualiza o email do passageiro no banco
+        $sql = "UPDATE passageiro SET EMAIL_PASSAGEIRO='$email_passageiro' WHERE ID_PASSAGEIRO=$id_passageiro";
+        $resultado = mysqli_query($conn, $sql);
     }
 
     // CRIAR PASSAGEM
     $query = "INSERT INTO passagem (FK_ASSENTO, FK_PASSAGEIRO, FK_VOO, FK_CUPOM, FK_RESERVA) VALUES ($assentos_pks[$passageiro], $id_passageiro, $id_voo, DEFAULT, $id_reserva)";
     $consulta = mysqli_query($conn, $query);
-    echo $query;
+
+    if (mysqli_insert_id($conn)) {
+        $passagens_criadas++;
+    } else {
+        $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
+        header("Location: ../../pages/cadastro-passageiro.php");
+    }
 }
 
-if (mysqli_insert_id($conn)) {        
+if ($passagens_criadas == $total_passageiros) {        
     $_SESSION['valor_total'] = $valor_total;
     $_SESSION['id_reserva'] = $id_reserva;
 
-    $_SESSION['msg'] = "<p style='color:green;'>Cadastro de passageiros realizado com sucesso.</p>";
-    echo $_SESSION['msg'];
-    echo "<script>location.href='../../pages/pagamento.php';</script>";
+    $_SESSION['msg'] = "<p class='text-center' style='color:green;'>Cadastro de passageiros realizado com sucesso.</p>";
+    header("Location: ../../pages/pagamento.php");
 } else {
-    $_SESSION['msg'] = "<p style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
-    echo "<script>location.href='../../pages/cadastro-passageiro.php';</script>";
+    $_SESSION['msg'] = "<p class='text-center' style='color:red;'>Erro. Não foi possível realizar o cadastro. Tente novamente.</p>";
+    header("Location: ../../pages/cadastro-passageiro.php");
 }
 
 ?>
