@@ -110,7 +110,7 @@ WHERE ID_VOO='$id'";
 $resultado = mysqli_query($conn, $update);
 
 if (mysqli_affected_rows($conn)) {
-    $_SESSION["msg"] = "<p class='text-center' style='color: green;'>Edição realizada com sucesso</p>";
+    $_SESSION["msg"] = "<p class='text-center' style='color: green;'>EDIÇÂO REALIZAD COM SUCESSO</p>";
     echo "<script>location.href='../admin/voo.php';</script>";
 } else {
     $_SESSION["msg"] = "<p class='text-center' style='color: red;'>VOO NÂO FOI EDITADO</p>";
