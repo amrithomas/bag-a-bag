@@ -118,6 +118,12 @@ for ($i = 1; $i <= 12; $i++) {
         <form action="" method="post">
             <div class="row">
                 <h3 class="h-faturamento">Detalhes do faturamento</h3>
+                <?php
+                  if (isset($_SESSION["msg"])) {   // isset() verifica se a variavel existe;
+                      echo $_SESSION["msg"];
+                      unset($_SESSION["msg"]);    // unset() destrói a variável passada como argumento, melhor utilizada em escopo global
+                  }
+                ?>
                 <div id="caixa-detalhes" class="col-8 offset-2 shadow">
                 <div class="row">
                     <div class="half-box">
