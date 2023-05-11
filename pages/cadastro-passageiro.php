@@ -141,11 +141,11 @@ $total_passageiros = count($assentos_volta);
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="../index.html">HOME</a></li>
-          <li><a class="nav-link scrollto" href="../index.html#about">SOBRE</a></li>
-          <li><a class="nav-link scrollto" href="./destinos.html">DESTINOS</a></li>
-          <li><a class="nav-link scrollto " href="../index.html#pricing">OFERTAS</a></li>
-          <li><a class="nav-link scrollto" href="../index.html#contact">CONTATO</a></li>
+          <li><a class="nav-link scrollto" href="../index.php">HOME</a></li>
+          <li><a class="nav-link scrollto" href="../index.php#about">SOBRE</a></li>
+          <li><a class="nav-link scrollto" href="./destinos.php">DESTINOS</a></li>
+          <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
+          <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
