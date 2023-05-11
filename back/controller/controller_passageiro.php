@@ -16,8 +16,22 @@ $id_usuario = $_SESSION['id_usuario'];
 $id_voo = $_SESSION['id_voo']; 
 
 // OBTER OS IDs DOS ASSENTOS
-$assentos = $_SESSION['assentos'];
-$total_passageiros = count($assentos);
+if (empty($_SESSION['assentos_ida'])){ 
+    //Indica que o tipo do voo escolhido é apenas ida, convertendo o dado obtido de assentos2.php que seria volta, para ida
+    $assentos_ida = $_SESSION['assentos_volta'];
+    $aviao_ida = $_SESSION['aviao_volta'];
+}else{
+    $assentos_ida = $_SESSION['assentos_ida'];
+    $assentos_volta = $_SESSION['assentos_volta'];
+    $aviao_ida = $_SESSION['aviao_ida'];
+    $aviao_volta = $_SESSION['aviao_volta'];
+    
+}
+
+
+//OBTER ID DOS AVIOES
+
+$total_passageiros = count($assentos_ida);
 
 $assentos_pks = [];
 for ($i=0; $i < $total_passageiros; $i++) { 
