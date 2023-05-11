@@ -140,7 +140,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
         <ul>
           <li><a class="nav-link scrollto " href="../index.php">HOME</a></li>
           <li><a class="nav-link scrollto" href="../index.php#about">SOBRE</a></li>
-          <li><a class="nav-link scrollto active" href="./destinos.php">DESTINOS</a></li>
+          <li><a class="nav-link scrollto " href="./destinos.php">DESTINOS</a></li>
           <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
           <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
@@ -224,6 +224,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
             <h5 class="card-title">Status: <?php echo $data[$i]['STATUS_RESERVA'] ?></h5>
             <h6 class="card-subtitle mb-2 text-body-secondary mt-4">Origem: <?php echo $data[$i]['ORIGEM_CIDADE'] ?> </h6>
             <h6 class="card-subtitle mb-2 text-body-secondary mt-4">Destino: <?php echo $data[$i]['DESTINO_CIDADE'] ?> </h6>
+            <h6 class="card-subtitle mb-2 text-body-secondary mt-4">Data da Viagem: <?php echo date_format(date_create($data[$i]['IDA_HORARIO_PARTIDA']), 'd/m/Y') ?> </h6>
             <p class="card-text mt-2">Tipo da passagem: <?php echo $tipo_passagem ?></p>
             <p class="card-text mt-2">Código do avião de ida: <?php echo $data[$i]['CODIGO_AVIAO_IDA'] ?> </p>
             <p class="card-text mt-2">Código do avião de volta: <?php echo $data[$i]['CODIGO_AVIAO_VOLTA'] ?> </p>
@@ -247,20 +248,21 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
                 ?>
                 <h6 class="card-subtitle mb-2 text-body-secondary mt-4">Nome: <?php echo ucfirst($row_passageiro['NOME_PASSAGEIRO']) . ' ' . $row_passageiro['SOBRENOME_PASSAGEIRO']; ?></h6>
                 <p class="card-text mt-2">E-mail: <?php echo $row_passageiro['EMAIL_PASSAGEIRO']; ?></p>
-                <p class="card-text mt-2">CPF: <?php echo $row_passageiro['CPF_PASSAGEIRO']; ?></p>
-                <p class="card-text mt-2">Data de nascimento: <?php echo $data_formatada; ?></p>
+                <!-- <p class="card-text mt-2">CPF: <?php echo $row_passageiro['CPF_PASSAGEIRO']; ?></p> -->
+                <!-- <p class="card-text mt-2">Data de nascimento: <?php echo $data_formatada; ?></p> -->
                 <p class="card-text mt-2">Telefone: <?php echo $row_passageiro['DDD'] . ' ' . $row_passageiro['NUMERO_TELEFONE']; ?></p>
             <?php } 
               // buscando ano/mês/dia de agora | buscando ano/mês/dia do voo da reserva
               $agora = date('Y-m-d');
               $data_partida = date('Y-m-d', strtotime($data[$i]['IDA_HORARIO_PARTIDA']));
-            ?>
-            <?php if($data_partida < $agora && $data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente'){ ?>
-              <p class="card-text mt-2" style="color: green">Voo realizado </p>
-            <?php } ?>
-            <!-- Verificando se a data de partida do voo (daquela reserva) é posterior a data atual, e a reserva é ou confirmada ou pendente (para conseguir cancelar caso o usuário queira)  -->
-            <?php if($data_partida > $agora && $data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente'){  ?>
               
+              $diff = date_diff(date_create($data_partida), date_create($agora));
+              $dias_para_voo = $diff->days;
+            ?>
+            <?php if($data_partida < $agora && ($data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente')){ ?>
+              <p class="card-text mt-2" style="color: green">Voo realizado </p>
+            <!-- Verificando se a data de partida do voo (daquela reserva) é posterior a data atual em dois dias, e a reserva é ou confirmada ou pendente (para conseguir cancelar caso o usuário queira)  -->
+            <?php } else if(($data_partida > $agora) && ($dias_para_voo > 2) && ($data[$i]['STATUS_RESERVA'] == 'Confirmada' || $data[$i]['STATUS_RESERVA'] == 'Pendente')){  ?>
               <form action="../back/controller/controller_update_reserva.php" method="post">
                 <input type="hidden" name="id_reserva" value="<?php echo $data[$i]['ID_RESERVA']; ?>">
                 <button type="submit" style="min-width: 80px;" class="btn btn-outline-danger text-center " onclick="location.reload();">
