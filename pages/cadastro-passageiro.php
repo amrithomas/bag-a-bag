@@ -5,21 +5,37 @@ include_once("../back/funcoes.php");
 $id_usuario = $_SESSION['id_usuario'];
 $id_voo = $_SESSION['id_voo'];
 
-// $str_assentos_ida = filter_input(INPUT_POST, "assentos_ida");
-// $str_assentos_volta = filter_input(INPUT_POST, "assentos_volta");
-// $str_aviao_ida = filter_input(INPUT_POST, "aviao_ida");
-// $str_aviao_volta = filter_input(INPUT_POST, "aviao_volta");
+$str_assentos_ida = filter_input(INPUT_POST, "assentos_ida");
+$str_assentos_volta = filter_input(INPUT_POST, "assentos_volta");
+$str_aviao_ida = filter_input(INPUT_POST, "aviao_ida");
+$str_aviao_volta = filter_input(INPUT_POST, "aviao_volta");
 
 $str_assentos = filter_input(INPUT_POST, "assentos");
 
-if (!empty($str_assentos)) {
-  $assentos = explode(",", $str_assentos);
-  $_SESSION['assentos'] = $assentos;
+if (!empty($str_assentos_volta)) {
+  $assentos_volta = explode(",", $str_assentos_volta);
+  $_SESSION['assentos_volta'] = $assentos_volta;
+
+  $assentos_ida = explode(",", $str_assentos_ida);
+  $_SESSION['assentos_ida'] = $assentos_ida;
+
+  $aviao_volta = explode(",", $str_aviao_volta);
+  $_SESSION['aviao_volta'] = $aviao_volta;
+
+  $aviao_ida = explode(",", $str_aviao_ida);
+  $_SESSION['aviao_ida'] = $aviao_ida;
+
 } else {
-  $assentos = $_SESSION['assentos'];
+  $assentos_volta = $_SESSION['assentos_volta'];
+
+  $assentos_ida = $_SESSION['assentos_ida'];
+
+  $aviao_volta = $_SESSION['aviao_volta'];
+
+  $aviao_ida = $_SESSION['aviao_ida'];
 }
 
-$total_passageiros = count($assentos);
+$total_passageiros = count($assentos_volta);
 
 ?>
 

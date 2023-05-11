@@ -194,25 +194,17 @@ if(isset($_POST['tipo'])){
     
     <?php
 
-      $lim = $assentos_ida;
-      $limite = explode(",",$lim);
-      $limite1 = count($limite);
-      $limite1 = $_SESSION['lim'];
+      //Definindo o limite de assentos
+      if (!empty($assentos_ida)){ 
+        $limite = explode(",", $assentos_ida);
+        $_SESSION['limite'] = $limite;
+      }else{ 
+        $limite = $_SESSION['limite'];
+      } 
+      $total_limite = count($limite);
 
-      $lim = $assentos_ida;
-      $limite = explode(",",$lim);
-      $limite1 = count($limite);
-
-      $_SESSION['lim'] = $limite1;
-      // ini_set('session.cookie_lifetime', 120);
-
-
-
-
-    echo $_SESSION['lim'];
-    // echo $assentos_ida;
     ?>
-    <input type="hidden" id="limite" name="limite" value="<?php echo $_SESSION['lim']?>"/> 
+    <input type="hidden" id="limite" name="limite" value="<?php echo $total_limite ?>"/> 
     <?php
 
 
@@ -225,13 +217,6 @@ if(isset($_POST['tipo'])){
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos de Primeira Classe";</script>';
       // div assentos classe economica, display: none;
     }
-
-    
-  
-
-    // echo $aviao_ida;
-    // echo $aviao_volta;
-   
 
     //Obtendo o ID do voo Escolhido
     $_SESSION['id_voo'] = filter_input(INPUT_GET,'voo');
