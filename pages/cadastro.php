@@ -4,7 +4,7 @@ date_default_timezone_set('America/Sao_Paulo');
 $data_atual = date("Y-m-d");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="utf-8">

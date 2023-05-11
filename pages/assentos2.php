@@ -13,7 +13,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if(empty($row)) {
-  header('Location: ../pages/login.php');
+  header('Location: ../pages/login.html');
 }
 
 ?>
@@ -109,6 +109,19 @@ if(empty($row)) {
 </div> 
 
 <?php 
+
+//Obtendo os IDs dos aviões utilizados para ida e volta
+$aviao_ida = $aviao_ida = filter_input(INPUT_GET,'ida');
+
+if ($_SESSION['tipoVoo'] == 'Ida e Volta'){
+  $aviao_volta = filter_input(INPUT_GET,'volta');
+}else{
+  $aviao_volta = '';
+}
+
+//Obtendo os valores dos assentos da ida
+$assentos_ida = filter_input(INPUT_POST, "assentos_ida");
+
 $tipo = 'Primeira';
 
 // Verifica se o formulário foi enviado
@@ -127,7 +140,7 @@ if(isset($_POST['tipo'])){
   <form method="post">
     <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="tipoSwitch" name="tipo" value="Econômica" <?php if($tipo == 'Econômica'){ echo 'checked'; } ?> onchange="this.form.submit()">
-        <label class="form-check-label" for="tipoSwitch"><?php if ($tipo == 'Primeira'){echo 'Assentos de Primeira Classe';}else{echo 'Assentos de Classe Econômica';} ?></label>
+        <label class="form-check-label" for="tipoSwitch"><?php if ($tipo == 'Primeira'){echo 'Assentos de Primeira Classe: ' . $_SESSION['tipoVoo'];}else{echo 'Assentos de Classe Econômica: ' . $_SESSION['tipoVoo'];} ?></label>
     </div>
   </form>
 
@@ -149,7 +162,7 @@ if(isset($_POST['tipo'])){
           <div class="card card-body" style="width: 300px;">
             <!-- <input type="radio" id="ast" name="ast" enabled> -->
             <div class="row text-center">
-              <h6 class="col-10">Assentos Selecionados</h6>
+              <h6 class="col-10">Assentos Selecionados: <?php ?></h6>
               <button type="button"  data-bs-toggle="collapse" data-bs-target="#cardAssento" class="btn-close col-2"  aria-label="Close"></button>
 
             </div>
@@ -161,7 +174,11 @@ if(isset($_POST['tipo'])){
             </div>
 
             <div class="row offset-1 mt-1">
-              <input type="hidden" id="enviaArray" name="assentos" value=""/>
+              <input type="hidden" name="assentos_ida" value="<?php echo $assentos_ida ?>"/>
+              <input type="hidden" id="enviaArray" name="assentos_volta" value=""/> 
+              <input type="hidden" name="aviao_ida" value="<?php echo $aviao_ida?>"/>
+              <input type="hidden" name="aviao_volta" value="<?php echo $aviao_volta?>"/>               
+                         
               <button type="submit" onclick="enviadado()" class="btn btn-success col-5" id="">
                 Prosseguir
               </button>
@@ -175,8 +192,23 @@ if(isset($_POST['tipo'])){
       </div>
     <!-- ====== Fim do Card de Informação do Assento ====== -->
     
-    
     <?php
+
+      //Definindo o limite de assentos
+      if (!empty($assentos_ida)){ 
+        $limite = explode(",", $assentos_ida);
+        $_SESSION['limite'] = $limite;
+      }else{ 
+        $limite = $_SESSION['limite'];
+      } 
+      $total_limite = count($limite);
+
+    ?>
+    <input type="hidden" id="limite" name="limite" value="<?php echo $total_limite ?>"/> 
+    <?php
+
+
+
     // Atualiza o título de acordo com o valor de $tipo
     if($tipo == 'Econômica') {
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos Econômicos";</script>';
@@ -186,13 +218,10 @@ if(isset($_POST['tipo'])){
       // div assentos classe economica, display: none;
     }
 
-
+    //Obtendo o ID do voo Escolhido
     $_SESSION['id_voo'] = filter_input(INPUT_GET,'voo');
     $id_voo = filter_input(INPUT_GET,'voo');
 
-    // $tipo = filter_input(INPUT_GET,'tipo');
-    // var_dump($tipo);
-    // $tipo = 'Primeira';
     
     //Obter Quantidade de Assentos
     $comando = 
@@ -237,17 +266,7 @@ if(isset($_POST['tipo'])){
     // echo $x;
     // echo $z;
 
-    // echo $row_resultado[0][0];
-
-    // if (!empty($row_resultado_ocupado)){
-    //   $z = $row_resultado_ocupado[0][0];
-    //   echo 'tem coisa';
-    // }else{
-    //   $z = 0;
-    //   echo 'nao tem coisa';
-    // }
-
-    echo 'Voo Selecionado ID:' . $id_voo;
+    // echo 'Voo Selecionado ID:' . $id_voo;
 
     //Listagem de Linhas
     while($x < (count($row_resultado))){ 
@@ -262,8 +281,6 @@ if(isset($_POST['tipo'])){
       if($z < (count($row_resultado_ocupado))){
         $z = $z + 1;
       }
-      
-      
       
       
       //Listagem Primeira Poltrona do Lado Esquerdo
@@ -414,11 +431,11 @@ if(isset($_POST['tipo'])){
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>BAG-A-BAGₑ</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#about">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="./destinos.php">Destinos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#pricing">Ofertas</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#contact">Contato</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#about">Sobre</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="destinos.html">Destinos</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#pricing">Ofertas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#contact">Contato</a></li>
             </ul>
           </div>
 
@@ -472,5 +489,5 @@ if(isset($_POST['tipo'])){
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/login.js"></script>
   <!-- Script Assento -->
-  <script src="../assets/js/assentos.js"></script>
+  <script src="../assets/js/assentos2.js"></script>
 </body>
