@@ -274,17 +274,7 @@ while ($row2 = mysqli_fetch_assoc($result2)) {
                 Cancelar
               </button>
               </form>
-              <?php } if(($data_partida > $agora) && ($dias_para_voo > 2) &&  $data[$i]['STATUS_RESERVA'] == 'Pendente'){  ?>
-              <form action="pagamento.php" method="post">
-                <?php $_SESSION['valor_total'] = $data[$i]['VALOR_TOTAL']; ?>
-                <?php $_SESSION['id_reserva'] = $data[$i]['ID_RESERVA']; ?>
-                <input type="hidden" name="id_reserva" value="<?php echo $data[$i]['ID_RESERVA']; ?>">
-                <input type="hidden" name="valor_total" value="<?php echo $data[$i]['VALOR_TOTAL']; ?>">
-                <button type="submit" style="min-width: 80px; margin-top: 1%;" class="btn btn-outline-success text-center ">
-                  <i class="bi bi-check2"></i>
-                Pagar
-              </button>
-              </form>
+              
           <?php } ?> 
         <?php } ?> 
         </div>

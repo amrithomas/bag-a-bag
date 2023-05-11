@@ -9,9 +9,7 @@ include_once('../conexao.php');
  $id_reserva = $_SESSION['id_reserva']; // Obter o ID_RESERVA da variável de sessão
  $id_usuario = $_SESSION['id_usuario']; // Obter o ID_USUARIO da variável de sessão
 
-  if ($_SERVER['HTTP_REFERER']) {
-    $id_reserva = $_POST['id_reserva'];
-  } 
+  
 
  function atualizar_status_reserva($conn, $id_reserva) {
     $query2 = "SELECT * FROM reserva 

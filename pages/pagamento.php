@@ -21,9 +21,6 @@
     //pegando o valor total do pagamento vindo da reserva
     $valorTotal = $_SESSION['valor_total'];
     
-    if ($_SERVER['HTTP_REFERER']) {
-     $valorTotal = $_POST['valor_total'];
-    } 
      
   $parcelas = array();
 
@@ -172,10 +169,6 @@ for ($i = 1; $i <= 12; $i++) {
           <div class="row">
             <h3 class="h-forma">Formas de pagamento</h3>
             <div id="caixa-pagamento" class="col-8 offset-2 shadow">
-           <?php if ($_SERVER['HTTP_REFERER']) {
-                  $id_reserva = $_POST['id_reserva'];
-                } ?>
-                <input type="hidden" name="id_reserva" value="<?php echo $id_reserva; ?>">
                 <input type="radio" id="termos" name="pagamento"  value="credito"> <label for="">Cartão de crédito</label> 
                 <div id="termoConteudo">
 
