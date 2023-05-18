@@ -83,11 +83,11 @@ include_once("../../back/conexao.php"); //incluindo conexão
             $query = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($query);
             //SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="getstarted scrollto" href="user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
+            echo '<li><a class="getstarted scrollto" href="../user.php?id=' . $row["ID_USUARIO"] . '" style="margin-left: 80px;">Ver perfil</a></li>';
             echo '<li><a class="nav-link scrollto" href="../back/controller/controller_logoff.php">LOGOFF</a></li>';
           } else {
             //SE NÃO ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES
-            echo '<li><a class="nav-link scrollto" href="login.html" style="margin-left: 80px;">LOGIN</a></li>';
+            echo '<li><a class="nav-link scrollto" href="login.php" style="margin-left: 80px;">LOGIN</a></li>';
             echo '<li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>';
           }
           ?>
@@ -334,6 +334,93 @@ include_once("../../back/conexao.php"); //incluindo conexão
         $query = mysqli_query($conn, $comando);
         $row_resultado = mysqli_fetch_all($query);
 
+        // ======================================== Fim Query 01 ================================================
+
+        // $query4= "SELECT ID_RESERVA FROM reserva WHERE FK_USUARIO = '$id'";
+        // $result4 = mysqli_query($conn, $query4);
+        // $row4 = mysqli_fetch_assoc($result4);
+        // $reservas_ids = [];
+        // $j = 0;
+        // $total_reserva = 0;
+
+        // while ($row4 = mysqli_fetch_assoc($result4)) {
+        // $total_reserva++;
+        // $reservas_ids[$j] = $row4['ID_RESERVA'];
+        // $j++;
+        // }
+
+
+        // for($i=0; $i < count($reservas_ids) ; $i++){
+
+
+        // }
+
+  
+        // $query1 = "SELECT * FROM passagem
+        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
+        // INNER JOIN voo ON FK_VOO = ID_VOO
+        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
+        // INNER JOIN aeroporto AS origem ON FK_ORIGEM_AERO = origem.ID_AEROPORTO
+        // INNER JOIN aeroporto AS destino ON FK_DESTINO_AERO = destino.ID_AEROPORTO
+        // WHERE FK_USUARIO = '$id'
+        // GROUP BY FK_RESERVA
+        // ORDER BY ID_RESERVA DESC;";
+
+
+        // $result1 = mysqli_query($conn, $query1);
+
+        // $query2 = "SELECT passagem.*, aviao.*, origem.CIDADE as ORIGEM_CIDADE, destino.CIDADE as DESTINO_CIDADE
+        // FROM passagem
+        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
+        // INNER JOIN voo ON FK_VOO = ID_VOO
+        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
+        // JOIN aeroporto origem ON voo.FK_ORIGEM_AERO = origem.ID_AEROPORTO
+        // JOIN aeroporto destino ON voo.FK_DESTINO_AERO = destino.ID_AEROPORTO
+        // WHERE FK_USUARIO = '$id'
+        // GROUP BY FK_RESERVA
+        // ORDER BY ID_RESERVA DESC;";
+
+
+        // $result2 = mysqli_query($conn, $query2);
+
+
+
+
+        // $query3 = "SELECT a1.CODIGO_AVIAO AS CODIGO_AVIAO_IDA, a2.CODIGO_AVIAO AS CODIGO_AVIAO_VOLTA
+        // FROM passagem
+        // INNER JOIN reserva ON ID_RESERVA = FK_RESERVA
+        // INNER JOIN voo ON FK_VOO = ID_VOO
+        // INNER JOIN aviao ON ID_AVIAO = FK_AVIAO_IDA
+        // JOIN aviao a1 ON FK_AVIAO_IDA = a1.ID_AVIAO
+        // JOIN aviao a2 ON FK_AVIAO_VOLTA = a2.ID_AVIAO
+        // WHERE FK_USUARIO = '$id'
+        // GROUP BY FK_RESERVA
+        // ORDER BY ID_RESERVA DESC;";
+
+
+
+
+        // $result3 = mysqli_query($conn, $query3);
+
+
+
+
+        // Criar o array associativo combinando os resultados dos SELECTs
+
+        // $data = array();
+
+        // while ($row2 = mysqli_fetch_assoc($result2)) {
+        // $row1 = mysqli_fetch_assoc($result1);
+        // $combined_row = array_merge($row1, $row2);
+        // $row3 = mysqli_fetch_assoc($result3);
+        // $final_row = array_merge($combined_row, $row3);
+        // $data[] = $final_row;
+        // }
+
+        
+
+        // var_dump($data);
+        
 
         // var_dump($row_resultado[5][0]);
 

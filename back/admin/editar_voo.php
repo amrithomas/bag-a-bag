@@ -2,7 +2,7 @@
 session_start();
 include_once('../conexao.php');
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$id = $_GET['id'];
 
 $query_consulta = "SELECT * FROM voo WHERE ID_VOO = '$id'";
 $consulta = mysqli_query($conn, $query_consulta);
@@ -90,7 +90,7 @@ if (!empty($row_consulta['FK_ESCALA_VOLTA'])) {
     <header id="header" class="fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
 
-            <h1 class="logo"><a href="index.php">BAG-A-BAGₑ</a></h1>
+            <h1 class="logo"><a href="../../index.php">BAG-A-BAGₑ</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -106,12 +106,12 @@ if (!empty($row_consulta['FK_ESCALA_VOLTA'])) {
                     <?php
                     // VERIFICANDO SE TEM UM USUARIO LOGADO
                     if (isset($_SESSION['id_usuario'])) {
-                        $id = $_SESSION['id_usuario'];
+                        $id_usuario = $_SESSION['id_usuario'];
 
                         $query = "SELECT * FROM usuario 
                         INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
                         INNER JOIN cadastro ON FK_CADASTRO = ID_CADASTRO
-                        WHERE ID_USUARIO='$id'";
+                        WHERE ID_USUARIO='$id_usuario'";
                         $query = mysqli_query($conn, $query);
                         $row = mysqli_fetch_assoc($query);
                         // SE ESTIVER LOGADO APARECERÁ AS SEGUINTES INFORMAÇÕES

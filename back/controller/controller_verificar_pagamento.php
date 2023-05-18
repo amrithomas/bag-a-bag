@@ -7,6 +7,9 @@ include_once('../conexao.php');
  $opcao = $_POST["pagamento"];
 
  $id_reserva = $_SESSION['id_reserva']; // Obter o ID_RESERVA da variável de sessão
+ $id_usuario = $_SESSION['id_usuario']; // Obter o ID_USUARIO da variável de sessão
+
+  
 
  function atualizar_status_reserva($conn, $id_reserva) {
     $query2 = "SELECT * FROM reserva 
@@ -86,9 +89,11 @@ include_once('../conexao.php');
             $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Crédito','$id_reserva','$qtd_parcelas')";
             $resultado_usuario = mysqli_query($conn, $result_usuario);
             $resultado = atualizar_status_reserva($conn, $id_reserva);
-            echo "<script>location.href='../../index.php';</script>";
+            $_SESSION['msg'] = "<p class='text-center' style='color:green'>Pagamento efetuado com sucesso.</p>";
+            header("Location: ../../pages/user.php?id=". $id_usuario);
         } else {
-            echo "<script>location.href='../../pages/pagamento.php';</script>";
+            $_SESSION['msg'] = "<p class='text-center' style='color:red'>Pagamento não confirmado.</p>";
+            header("Location: ../../pages/pagamento.php?id=");
         }
         break;
     case "pix":
@@ -96,7 +101,8 @@ include_once('../conexao.php');
         $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Pix','$id_reserva',NULL)";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
         $resultado = atualizar_status_reserva($conn, $id_reserva);
-        echo "<script>location.href='../../index.php';</script>";
+        $_SESSION['msg'] = "<p class='text-center' style='color:green'>Pagamento efetuado com sucesso.</p>";
+        header("Location: ../../pages/user.php?id=". $id_usuario);
         break;
 
     case "boleto":
@@ -104,16 +110,12 @@ include_once('../conexao.php');
         $result_usuario = "INSERT INTO pagamento (status_pagamento, data_pagamento, tipo_pagamento, fk_reserva, parcelas) VALUES ('Aprovado',NOW(),'Boleto','$id_reserva',NULL)";
         $resultado_usuario = mysqli_query($conn, $result_usuario);
         $resultado = atualizar_status_reserva($conn, $id_reserva);
-        echo "<script>location.href='../../index.php';</script>";
+        $_SESSION['msg'] = "<p class='text-center' style='color:green'>Pagamento efetuado com sucesso.</p>";
+        header("Location: ../../pages/user.php?id=". $id_usuario);
         break;
     case "":
-
-        echo "<script>location.href='../../pages/pagamento.php';</script>";
+        $_SESSION['msg'] = "<p class='text-center' style='color:red'>Pagamento não confirmado.</p>";
+        header("Location: ../../pages/pagamento.php?id=");
         break;
-    
-    
-        
-}
-
-session_destroy(); // Destruir a sessão 
+} 
 ?>

@@ -1,3 +1,6 @@
+<?php
+    session_start(); //iniciando sessão
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -67,7 +70,7 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul> -->
           </li>
-          <li><a class="nav-link scrollto active" href="login.html" style = "margin-left: 80px;">LOGIN</a></li>
+          <li><a class="nav-link scrollto active" href="login.php" style = "margin-left: 80px;">LOGIN</a></li>
           <li><a class="getstarted scrollto" href="cadastro.php">CADASTRE-SE</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -83,6 +86,12 @@
               
                   <form class="" action="../back/controller/controller_login.php" method="post">
                     <h4 class="text-center mb-3" style="color: #5C9F24">Login</h5>
+                    <?php
+                      if (isset($_SESSION['msg'])) {
+                        echo $_SESSION['msg'];
+                        unset($_SESSION['msg']);
+                      }
+                    ?>
 
                     <label for="caixa-text" style="color: #5C9F24;" class="form-label">Endereço de Email</label>
                     <div id="caixa-text" class=" mb-5">

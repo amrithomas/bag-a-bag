@@ -18,11 +18,10 @@
 
    
     
+    //pegando o valor total do pagamento vindo da reserva
+    $valorTotal = $_SESSION['valor_total'];
     
-  
- //pegando o valor total do pagamento vindo da reserva
- $valorTotal = $_SESSION['valor_total'];
-  
+     
   $parcelas = array();
 
 //Faz a divisão do valor total de 1 a 12 e armazena em um array para apresenta-lo posteriormente
@@ -118,6 +117,12 @@ for ($i = 1; $i <= 12; $i++) {
         <form action="" method="post">
             <div class="row">
                 <h3 class="h-faturamento">Detalhes do faturamento</h3>
+                <?php
+                  if (isset($_SESSION["msg"])) {   // isset() verifica se a variavel existe;
+                      echo $_SESSION["msg"];
+                      unset($_SESSION["msg"]);    // unset() destrói a variável passada como argumento, melhor utilizada em escopo global
+                  }
+                ?>
                 <div id="caixa-detalhes" class="col-8 offset-2 shadow">
                 <div class="row">
                     <div class="half-box">
@@ -164,7 +169,6 @@ for ($i = 1; $i <= 12; $i++) {
           <div class="row">
             <h3 class="h-forma">Formas de pagamento</h3>
             <div id="caixa-pagamento" class="col-8 offset-2 shadow">
-
                 <input type="radio" id="termos" name="pagamento"  value="credito"> <label for="">Cartão de crédito</label> 
                 <div id="termoConteudo">
 

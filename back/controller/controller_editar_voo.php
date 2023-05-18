@@ -10,13 +10,18 @@ $row_consulta = mysqli_fetch_assoc($consulta);
 
 $aviao_ida = filter_input(INPUT_POST, 'aviao_ida', FILTER_SANITIZE_NUMBER_INT);
 $aviao_volta = filter_input(INPUT_POST, 'aviao_volta', FILTER_SANITIZE_NUMBER_INT);
-$aviao_volta = empty($aviao_volta) ? "NULL" : $aviao_volta;
+if ($aviao_volta == "") {
+    $aviao_volta = "NULL";
+}
 
 $aeroporto_origem = filter_input(INPUT_POST, 'aeroporto_origem', FILTER_SANITIZE_NUMBER_INT);
 $aeroporto_destino = filter_input(INPUT_POST, 'aeroporto_destino', FILTER_SANITIZE_NUMBER_INT);
 
 $horario_partida_ida = filter_input(INPUT_POST, 'horario_partida_ida');
+$horario_partida_ida = "'$horario_partida_ida'";
+
 $horario_chegada_ida = filter_input(INPUT_POST, 'horario_chegada_ida');
+$horario_chegada_ida = "'$horario_chegada_ida'";
 
 $horario_partida_volta = filter_input(INPUT_POST, 'horario_partida_volta');
 if ($horario_partida_volta == "") {
@@ -93,8 +98,8 @@ FK_DESTINO_AERO=$aeroporto_destino,
 FK_ESCALA_IDA=$fk_escala_ida,
 FK_ESCALA_VOLTA=$fk_escala_volta,
 VALOR_PASSAGEM=$valor_passagem,
-IDA_HORARIO_PARTIDA='$horario_partida_ida',
-IDA_HORARIO_CHEGADA='$horario_chegada_ida',
+IDA_HORARIO_PARTIDA=$horario_partida_ida,
+IDA_HORARIO_CHEGADA=$horario_chegada_ida,
 VOLTA_HORARIO_PARTIDA=$horario_partida_volta,
 VOLTA_HORARIO_CHEGADA=$horario_chegada_volta,
 FK_AVIAO_IDA=$aviao_ida,
@@ -105,7 +110,7 @@ WHERE ID_VOO='$id'";
 $resultado = mysqli_query($conn, $update);
 
 if (mysqli_affected_rows($conn)) {
-    $_SESSION["msg"] = "<p class='text-center' style='color: green;'>Edição realizada com sucesso</p>";
+    $_SESSION["msg"] = "<p class='text-center' style='color: green;'>EDIÇÂO REALIZAD COM SUCESSO</p>";
     echo "<script>location.href='../admin/voo.php';</script>";
 } else {
     $_SESSION["msg"] = "<p class='text-center' style='color: red;'>VOO NÂO FOI EDITADO</p>";

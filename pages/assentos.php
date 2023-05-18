@@ -13,7 +13,7 @@ $query = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($query);
 
 if(empty($row)) {
-  header('Location: ../pages/login.html');
+  header('Location: ../pages/login.php');
 }
 
 ?>
@@ -68,17 +68,17 @@ if(empty($row)) {
   <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="../index.html">BAG-A-BAGₑ</a></h1>
+      <h1 class="logo"><a href="../index.php">BAG-A-BAGₑ</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <!-- <a href="index.php" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="../index.html">HOME</a></li>
-          <li><a class="nav-link scrollto" href="../index.html#about">SOBRE</a></li>
-          <li><a class="nav-link scrollto" href="./destinos.html">DESTINOS</a></li>
-          <li><a class="nav-link scrollto " href="../index.html#pricing">OFERTAS</a></li>
-          <li><a class="nav-link scrollto" href="../index.html#contact">CONTATO</a></li>
+          <li><a class="nav-link scrollto" href="../index.php">HOME</a></li>
+          <li><a class="nav-link scrollto" href="../index.php#about">SOBRE</a></li>
+          <li><a class="nav-link scrollto" href="./destinos.php">DESTINOS</a></li>
+          <li><a class="nav-link scrollto " href="../index.php#pricing">OFERTAS</a></li>
+          <li><a class="nav-link scrollto" href="../index.php#contact">CONTATO</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a href="#">Drop Down 1</a></li>
@@ -180,8 +180,10 @@ if(isset($_POST['tipo'])){
     // Atualiza o título de acordo com o valor de $tipo
     if($tipo == 'Econômica') {
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos Econômicos";</script>';
+      // div assentos primeira classe, display: none;
     } else {
       echo '<script>document.getElementById("titulo").innerHTML = "Assentos de Primeira Classe";</script>';
+      // div assentos classe economica, display: none;
     }
 
 
@@ -196,7 +198,7 @@ if(isset($_POST['tipo'])){
     $comando = 
     "SELECT NUMERO_ASSENTO FROM assentos
     INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO            
-    INNER JOIN voo ON  voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO = '$id_voo' AND CLASSE = '$tipo'
+    INNER JOIN voo ON  voo.FK_AVIAO_IDA = aviao.ID_AVIAO WHERE ID_VOO = '$id_voo'  AND CLASSE = '$tipo'
     ";
     $query = mysqli_query($conn,$comando);
     $row_resultado = mysqli_fetch_all($query);
@@ -205,7 +207,7 @@ if(isset($_POST['tipo'])){
     $comando_ocupado = 
     "SELECT NUMERO_ASSENTO FROM assentos
     INNER JOIN aviao ON aviao.ID_AVIAO = assentos.FK_AVIAO               
-    INNER JOIN passagem ON passagem.FK_ASSENTO = ID_ASSENTO WHERE FK_VOO = '$id_voo' AND CLASSE = '$tipo'
+    INNER JOIN passagem ON passagem.FK_ASSENTO = ID_ASSENTO WHERE FK_VOO = '$id_voo'  AND CLASSE = '$tipo'
     ";
     $query_ocupado = mysqli_query($conn,$comando_ocupado);
     $row_resultado_ocupado = mysqli_fetch_all($query_ocupado);
@@ -245,13 +247,14 @@ if(isset($_POST['tipo'])){
     //   echo 'nao tem coisa';
     // }
 
+    echo 'Voo Selecionado ID:' . $id_voo;
 
     //Listagem de Linhas
     while($x < (count($row_resultado))){ 
       
       $x = $x + 1; //Variável correspondente ao número de cada poltrona
       $y = $y + 1; //Variável capaz de organizar a impressão das poltronas
-      if($y == 5){ //Filtro limitador da quantidade de variáveis
+      if($y == 5){ //Filtro limitador da quantidade de poltronas por linha
         $y = 1;
       }
       
@@ -411,11 +414,11 @@ if(isset($_POST['tipo'])){
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>BAG-A-BAGₑ</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#about">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="destinos.html">Destinos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#pricing">Ofertas</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="../index.html#contact">Contato</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#about">Sobre</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="./destinos.php">Destinos</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#pricing">Ofertas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../index.php#contact">Contato</a></li>
             </ul>
           </div>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once('../back/conexao.php');
+date_default_timezone_set('America/Sao_Paulo');
 $id = filter_input(INPUT_GET, 'id' , FILTER_SANITIZE_NUMBER_INT);
 $result_cadastro = "SELECT * FROM usuario 
 INNER JOIN telefone ON FK_TELEFONE = ID_TELEFONE 
@@ -22,6 +23,8 @@ $row = mysqli_fetch_assoc($query);
 if(empty($row)) {
   echo "<script>location.href='../index.php';</script>";
 }
+
+$data_atual = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -69,71 +72,76 @@ if(empty($row)) {
         telefone.value = telefone.value + '-'; //quando o campo já tiver 8 caracteres, o script irá inserir um tracinho, para melhor visualização do telefone.
     }
   </script>
-  <script>
 
+<script>
+    
     function limpa_formulário_cep() {
-      //Limpa valores do formulário de cep.
-      document.getElementById('endereco').value = ("");
-      document.getElementById('cidade').value = ("");
-      document.getElementById('estado').value = ("");
+            //Limpa valores do formulário de cep.
+            document.getElementById('endereco').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('estado').value=("");
     }
 
     function meu_callback(conteudo) {
-      if (!("erro" in conteudo)) {
-        //Atualiza os campos com os valores.
-        document.getElementById('endereco').value = (conteudo.logradouro);
-        document.getElementById('cidade').value = (conteudo.localidade);
-        document.getElementById('estado').value = (conteudo.uf);
-      } //end if.
-      else {
-        //CEP não Encontrado.
-        limpa_formulário_cep();
-        alert("CEP não encontrado.");
-      }
-    }
-
-    function pesquisacep(valor) {
-
-      //Nova variável "cep" somente com dígitos.
-      var cep = valor.replace(/\D/g, '');
-
-      //Verifica se campo cep possui valor informado.
-      if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if (validacep.test(cep)) {
-
-          //Preenche os campos com "..." enquanto consulta webservice.
-          document.getElementById('endereco').value = "...";
-          document.getElementById('cidade').value = "...";
-          document.getElementById('estado').value = "...";
-
-          //Cria um elemento javascript.
-          var script = document.createElement('script');
-
-          //Sincroniza com o callback.
-          script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-          //Insere script no documento e carrega o conteúdo.
-          document.body.appendChild(script);
-
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('endereco').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('estado').value=(conteudo.uf);
         } //end if.
         else {
-          //cep é inválido.
-          limpa_formulário_cep();
-          alert("Formato de CEP inválido.");
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
         }
-      } //end if.
-      else {
-        //cep sem valor, limpa formulário.
-        limpa_formulário_cep();
-      }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('endereco').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('estado').value="...";
+
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
     };
 
-  </script>
+    </script>
 
 </head>
 
@@ -141,7 +149,7 @@ if(empty($row)) {
 <header id="header" class="fixed-top d-flex align-items-center">
   <div class="container d-flex align-items-center justify-content-between">
 
-    <h1 class="logo"><a href="index.php">BAG-A-BAGₑ</a></h1>
+    <h1 class="logo"><a href="../index.php">BAG-A-BAGₑ</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
     <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -173,6 +181,12 @@ if(empty($row)) {
 
 <main class="main-alteracoes">
   <h5>Alteração Cadastral</h5>
+  <?php
+    if (isset($_SESSION['msg'])) {
+      echo $_SESSION['msg'];
+      unset($_SESSION['msg']);
+    }
+  ?>
   </div>
   <!-- <form action="#" method> -->
   <div class="row">
@@ -186,20 +200,20 @@ if(empty($row)) {
               <input type="hidden" name="id" value="<?php echo $id; ?>">
               <label for="name" style="color: #5c9f24">Nome</label>
               <input type="text" class="form-control required" style="background-color: #FFF; border-color: black"
-                name="name" id="name" value="<?php echo $row_cadastro['NOME']; ?>">
+                name="name" id="name" placeholder="Digite seu nome" value="<?php echo $row_cadastro['NOME']; ?>">
           </div>
         </div>
         <div class="half-box">
           <div class="col">
             <label for="lastname" style="color: #5c9f24">Nome do meio</label>
-            <input type="text" class="form-control required" style="background-color: #FFF; border-color: black" name="middlename" id="sobrenome" value="<?php echo $row_cadastro['NOME_MEIO']; ?>">
+            <input type="text" class="form-control required" placeholder="Digite seu nome do meio" style="background-color: #FFF; border-color: black" name="middlename" id="sobrenome" value="<?php echo $row_cadastro['NOME_MEIO']; ?>">
           </div>
         </div>
       </div>
       <div class="half-box" style="width: 88%;">
         <div class="col" style="width: 54%;">
           <label for="ultname" style="color: #5c9f24">Sobrenome</label>
-          <input type="text" class="form-control required" style="background-color: #FFF; border-color: black"
+          <input type="text" class="form-control required" placeholder="Digite seu sobrenome" style="background-color: #FFF; border-color: black"
             name="ultname" id="ultname" value="<?php echo $row_cadastro['SOBRENOME']; ?>">
         </div>
       </div>
@@ -219,7 +233,7 @@ if(empty($row)) {
       <div class="row">
         <div class="half-box">
           <label for="date" style="color: #5c9f24">Data de emissão (RG)</label>
-          <input type="date" name="data_emissao" id="dataexpedicao" class="form-control"
+          <input type="date" name="data_emissao" id="dataexpedicao" class="form-control" max="<?php echo $data_atual;?>" min="1904-01-01"
             style="background-color: #FFF; border-color: black" value="<?php echo $row_cadastro['DATA_EMISSAO']; ?>">
         </div>
         <div class="half-box">
@@ -247,7 +261,7 @@ if(empty($row)) {
       <div class="half-box">
         <label for="email" style="color: #5c9f24">E-mail</label>
         <input type="email" name="email" id="email" class="form-control required"
-          style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['EMAIL']; ?>">
+          style="background-color: #FFF; border-color: #000" placeholder="Digite seu e-mail" value="<?php echo $row_cadastro['EMAIL']; ?>">
       </div>
     </div>
     <div class="main-alteracoes-endereco">
@@ -255,21 +269,26 @@ if(empty($row)) {
       <div class="row">
         <!-- Informações como nome, CPF, RG e Data de nascimento estará como disabled, precisará colocar o comando para a informação colocada em cadastro já aparecer nesses campos desabilitados -->
         <div class="half-box">
-          <label for="endereco" style="color: #5c9f24">Endereço</label>
+          <label for="endereco" style="color: #5c9f24">Logradouro</label>
           <input type="endereco" name="endereco" id="endereco" class="form-control required"
-            style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['RUA']; ?>">
+            style="background-color: #FFF; border-color: #000" placeholder="Digite seu logradouro" value="<?php echo $row_cadastro['RUA']; ?>">
+        </div>
+        <div class="half-box">
+          <label for="bairro" style="color: #5c9f24">Bairro</label>
+          <input type="text" name="bairro" id="bairro" class="form-control required"
+            style="background-color: #FFF; border-color: #000" placeholder="Digite seu bairro" value="<?php echo $row_cadastro['BAIRRO']; ?>">
         </div>
       </div>
       <div class="row">
         <div class="half-box">
           <label for="cidade" style="color: #5c9f24">Cidade</label>
           <input type="cidade" name="cidade" id="cidade" class="form-control required"
-            style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['CIDADE']; ?>">
+            style="background-color: #FFF; border-color: #000" placeholder="Digite sua cidade" value="<?php echo $row_cadastro['CIDADE']; ?>">
         </div>
         <div class="half-box">
-          <label for="estado" style="color: #5c9f24">Estado</label>
+          <label for="estado" style="color: #5c9f24">UF</label>
           <input type="estado" name="estado" id="estado" class="form-control required"
-            style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['UF']; ?>">
+            style="background-color: #FFF; border-color: #000" placeholder="Digite sua UF" value="<?php echo $row_cadastro['UF']; ?>">
         </div>
       </div>
       <div class="row">
@@ -278,19 +297,19 @@ if(empty($row)) {
         <div class="half-box">
           <label for="number" style="color: #5c9f24">N°</label>
           <input type="number" name="numero" id="numero" class="form-control required"
-            style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['NUMERO_ENDERECO']; ?>">
+            style="background-color: #FFF; border-color: #000" placeholder="Digite o número da sua casa" value="<?php echo $row_cadastro['NUMERO_ENDERECO']; ?>">
         </div>
         <div class="half-box">
           <label for="complemento" style="color: #5c9f24">Complemento</label>
           <input type="complemento" name="complemento" id="complemento" class="form-control"
-            style="background-color: #FFF; border-color: #000" value="<?php echo $row_cadastro['COMPLEMENTO']; ?>">
+            style="background-color: #FFF; border-color: #000" placeholder="Digite informações adicionais" value="<?php echo $row_cadastro['COMPLEMENTO']; ?>">
         </div>
         <div class="row">
           <div class="half-box">
             <div class="col-6" style="margin: auto;">
               <label for="number" class="required" style="color: #5c9f24">CEP</label>
               <input type="number" name="cep" id="cep" class="form-control required"
-                style="background-color: #FFF; border-color: #000" onblur="pesquisacep(this.value);"
+                style="background-color: #FFF; border-color: #000" placeholder="Digite o seu CEP" onblur="pesquisacep(this.value);"
                 value="<?php echo $row_cadastro['CEP']; ?>">
             </div>
           </div>
@@ -298,6 +317,7 @@ if(empty($row)) {
       </div>
       <div class="botao">
         <button type="submit" id="cadastrar" class="btn btn-success">Salvar</button>
+        <a href="<?php echo "user.php?id=" . $row['ID_USUARIO'] ?>"><button type="button" id="cadastrar" class="btn btn-danger">Cancelar</button></a>
       </div>
       </form>
 </main>

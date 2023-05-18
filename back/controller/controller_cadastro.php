@@ -61,7 +61,11 @@
         $cpf_valida = true;
         echo "<br>";
         echo "cpf valido";
-    } //verificação do cpf
+    } //verificação do cpf 
+    else {
+        $_SESSION["cpf_valido"] = "<p style='color: red;'>Este CPF não é valido.</p>";
+    }
+
 
     echo var_dump($rg);
     if (validarRG($rg)){
@@ -69,12 +73,18 @@
         echo "<br>";
         echo "rg valido";
     } //verificação do rg
+    else {
+        $_SESSION["rg_valido"] = "<p style='color: red;'>Este RG não é valido.</p>";
+    }
 
     if (validarDataRg($data_emissao)){
         $data_rg_valida = true;
         echo "<br>";
         echo "data de emissao do rg valido";
     } //verificação da data de emissão do rg
+    else {
+        $_SESSION["data_rg"] = "<p style='color: red;'>A data ultrapassa 10 anos.</p>";
+    }
 
     //VERRIFICANDO SE O EMAIL É UNICO
     $a = "SELECT * FROM cadastro WHERE email ='$email'";
@@ -83,6 +93,7 @@
 
     if(!empty($row_email)){
         $unico_email = false;
+        $_SESSION["email"] = "<p style='color: red;'>Este email já existe.</p>";
     }else  {
         echo "<br>";
         echo "email unico";
@@ -96,6 +107,7 @@
 
     if(!empty($row_rg)){
         $unico_rg = false;
+        $_SESSION["rg"] = "<p style='color: red;'>Este rg já esta cadastrado.</p>";
     }else  {
         echo "<br>";
         echo "rg unico";
@@ -109,21 +121,12 @@
 
     if(!empty($row_cpf)){
         $unico_cpf = false;
+        $_SESSION["cpf"] = "<p style='color: red;'>Este CPF já esta cadastrado</p>";
     }else  {
         echo "<br>";
         echo "cpf unico";
         $unico_cpf = true;
     }
-
-    // VERIFICA SE O TELEFONE JÁ ESTÁ CADASTRADO
-    $d = "SELECT * FROM telefone WHERE ddd=$ddd AND $telefone = $telefone";
-    $select_telefone = mysqli_query($conn, $d);
-    $row_telefone = mysqli_fetch_assoc($select_telefone);
-
-    // VERIFICA SE O ENDEREÕ JÁ ESTÁ CADASTRADO
-    $e = "SELECT * FROM endereco WHERE CEP=$cep AND rua='$rua' AND numero_endereco=$numero AND bairro='$bairro' AND cidade='$cidade' AND uf='$uf' AND complemento='$complemento'";
-    $select_endereco = mysqli_query($conn, $e);
-    $row_endereco = mysqli_fetch_assoc($select_endereco);
 
     //VERIFICANDO AS CONDIÇÕES 
 
@@ -170,14 +173,15 @@
 
 
         if (mysqli_insert_id($conn)) {
-            $_SESSION["msg"] = "<p style='color: blue;'>Cadastrado realizado com sucesso</p>";
-            echo "<script>location.href='./login.php';</script>";
+            $_SESSION["msg"] = "<p style='color: blue; text-align: center;'>Cadastrado realizado com sucesso</p>";
+            unset($_SESSION['formulario']);
+            echo "<script>location.href='../../pages/login.php';</script>";
         } else {
-            $_SESSION["msg"] = "<p style='color: red;'>Cadastro não foi realizado com sucesso</p>";
+            $_SESSION["msg"] = "<p style='color: red; text-align: center;'>Cadastro não foi realizado com sucesso</p>";
             echo "<script>location.href='../../pages/cadastro.php';</script>";
         }
     } else {
-        $_SESSION["msg"] = "<p style='color: red;'>Cadastro não foi realizado com sucesso.</p>";
+        $_SESSION["msg"] = "<p style='color: red; text-align: center;'>Cadastro não foi realizado com sucesso.</p>";
         echo "<script>location.href='../../pages/cadastro.php';</script>";
     }  
 ?>

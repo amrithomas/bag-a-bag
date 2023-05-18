@@ -98,12 +98,15 @@
         }
         
         if (mysqli_affected_rows($conn)) {
-            //$_SESSION["msg"] = "<p style='color: blue;'>Usuário editado com sucesso</p>";
+            $_SESSION["msg"] = "<p style='color: blue; text-align: center;'>Usuário editado com sucesso</p>";
             header("Location: ../../pages/user.php?id=$id");
         } else {
-            //$_SESSION["msg"] = "<p style='color: blue;'>Usuário não foi editado.</p>";
-            header("Location: ../../pages/alteracoes_cadastro?id=$id");
+            $_SESSION["msg"] = "<p style='color: red; text-align: center;'>Nenhuma alteração feita</p>";
+            header("Location: ../../pages/alteracoes_cadastro.php?id=$id");
         }
+    } else {
+        $_SESSION["msg"] = "<p style='color: red; text-align: center;'>Nenhuma alteração feita / Data de emissão inválida</p>";
+        header("Location: ../../pages/alteracoes_cadastro.php?id=$id");
     }
 
 ?>
