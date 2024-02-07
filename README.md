@@ -1,6 +1,6 @@
 # Bag-a-Bag
 
-<img src="assets/estacionei_logo.png" alt="Exemplo imagem">
+<img src="assets/img/airplane_favicon.png" alt="Exemplo imagem">
 
 
 ## Sobre o projeto
